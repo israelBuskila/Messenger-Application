@@ -22,16 +22,11 @@ exports.authenticationUser = async (userName, password) => {
   } else return true;
 };
 
-exports.createUser = async (userName, password) => {
-  let user = await usersLoginDAL.getUserByUserName(userName);
+exports.createUser = async (newUser) => {
+  let user = await usersLoginDAL.getUserByUserName(newUser.UserName);
   if (user[0] === undefined) {
-    let obj = {
-      UserName: userName,
-      Password: password,
-    };
-
-    let resp = await usersLoginDAL.addUserLogin(obj);
+    let resp = await usersLoginDAL.addUserLogin(newUser);
     console.log(resp);
-    return true;
+    return resp;
   } else return "This UserName already exists Please choose another UserName !";
 };

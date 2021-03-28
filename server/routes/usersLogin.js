@@ -39,7 +39,7 @@ function verifyToken(req, res, next) {
 }
 
 router.post("/createAccount", async (req, res, next) => {
-  let a = await auth.createUser(req.body.UserName, req.body.Password);
+  let a = await auth.createUser(req.body);
 
   return res.send(a);
 });
