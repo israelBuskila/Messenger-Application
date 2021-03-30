@@ -11,6 +11,7 @@ import {
 import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
 import { useStyles } from "../style/styleLogin";
+import Box from "@material-ui/core/Box";
 // import { LockOutlinedIcon } from "@material-ui/icons/LockOutlinedIcon";
 
 function Login() {
@@ -51,6 +52,19 @@ function Login() {
       return history.push("/");
     }
   };
+
+  function Copyright() {
+    return (
+      <Typography variant="body2" color="textSecondary" align="center">
+        {"Copyright © "}
+        <Link color="inherit" href="https://material-ui.com/">
+          I.B
+        </Link>{" "}
+        {new Date().getFullYear()}
+        {"."}
+      </Typography>
+    );
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -101,6 +115,9 @@ function Login() {
           </Link>
         </Grid>
       </div>
+      <Box mt={5}>
+        <Copyright />
+      </Box>
       {/* <Typography component="h5" variant="h5">
       {err}
     </Typography> */}
