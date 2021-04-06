@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const auth = require("../BL/authntication");
+const usersLoginDAL = require("../DAL/usersLoginDAL");
 
-
-router.post("/", async (req, res, next) => {
+router.post("/login", async (req, res, next) => {
   const user = {
     UserName: req.body.UserName,
     Password: req.body.Password,
@@ -13,6 +13,10 @@ router.post("/", async (req, res, next) => {
   jwt.sign({ user: user }, "secretkey", (err, token) => {
     res.json({ a, token });
   });
+});
+
+router.get("/users", async (req, res, next) => {
+  res.send(await usersLoginDAL.getAllUsersLogin());
 });
 
 router.post("/api", verifyToken, (req, res) => {

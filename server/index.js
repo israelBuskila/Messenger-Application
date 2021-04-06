@@ -29,6 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true })).use(bodyParser.json());
 app.use("/", usersLoginRoutes);
 
 io.on("connection", (socket) => {
+  // console.log("object");
   WebSockets.sockets(socket);
 });
 // (socket) => {

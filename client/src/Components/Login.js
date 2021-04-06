@@ -26,7 +26,7 @@ function Login() {
       UserName: userName,
       Password: password,
     };
-    let response = await axios.post("http://localhost:3001/", obj);
+    let response = await axios.post("http://localhost:3001/login", obj);
 
     if (response.data.a === true) {
       // let resp = await axios.post(
@@ -46,10 +46,10 @@ function Login() {
       return history.push("/main");
     } else if (response.data.a === "User does not exist !") {
       alert(response.data.a);
-      return history.push("/");
+      return history.push("/login");
     } else {
       alert("Incorrect password !");
-      return history.push("/");
+      return history.push("/login");
     }
   };
 

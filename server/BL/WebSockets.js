@@ -1,6 +1,6 @@
 exports.sockets = (socket) => {
-  socket.on("message", ({ name, message }) => {
-    console.log(socket.id);
-    socket.broadcast.emit("message", { name, message });
+  socket.on("message", ({ sender, message, addressee }) => {
+    console.log({ sender, message, addressee });
+    socket.emit("message", { sender, message, addressee });
   });
 };
