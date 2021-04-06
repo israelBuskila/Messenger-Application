@@ -15,7 +15,7 @@ const usersLoginRoutes = require("./routes/usersLogin");
 require("./configs/database");
 
 // socket configuration
-const WebSockets = require("./utils/WebSockets.js");
+const WebSockets = require("./BL/WebSockets.js");
 
 /** Get port from environment and store in Express. */
 const port = process.env.PORT || "3001";
@@ -29,11 +29,14 @@ app.use(bodyParser.urlencoded({ extended: true })).use(bodyParser.json());
 app.use("/", usersLoginRoutes);
 
 io.on("connection", (socket) => {
-  socket.on("message", ({ name, message }) => {
-    console.log({ name, message });
-    io.emit("message", { name, message });
-  });
+  WebSockets.sockets(socket);
 });
+// (socket) => {
+//   socket.on("message", ({ name, message }) => {
+//     console.log({ name, message });
+//     io.emit("message", { name, message });
+//   });
+// });
 
 /** Listen on provided port, on all network interfaces. */
 http.listen(port);
