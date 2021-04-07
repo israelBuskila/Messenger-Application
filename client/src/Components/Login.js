@@ -36,13 +36,13 @@ function Login() {
       //   }
       // );
 
-      // let userInfo = {
-      //   UserName: obj.UserName,
-      //   FirstName: resp.data.FirstName,
-      //   Login: true,
-      //   Permissions: resp.data.Permissions,
-      // };
-      // sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+      let userInfo = {
+        UserName: obj.UserName,
+        // FirstName: resp.data.FirstName,
+        // Login: true,
+        // Permissions: resp.data.Permissions,
+      };
+      sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
       return history.push("/main");
     } else if (response.data.a === "User does not exist !") {
       alert(response.data.a);

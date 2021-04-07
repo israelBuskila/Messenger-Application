@@ -3,27 +3,28 @@ import React, { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import "../style/styleMain.css";
 import axios from "axios";
+import Link from "@material-ui/core/Link";
 
 const Main = () => {
   const [state, setState] = useState({
     message: "",
-    sender: "",
+    sender: JSON.parse(sessionStorage.getItem("userInfo")).UserName,
     addressee: "",
   });
   const [chat, setChat] = useState([]);
   const [users, setUsers] = useState([]);
-  const [addressee, setAddressee] = useState();
+
+  // const [addressee, setAddressee] = useState();
 
   const socketRef = useRef();
+
+  // useEffect(() => {});
 
   useEffect(() => {
     //get users
     axios
       .get("http://localhost:3001/users")
       .then((resp) => setUsers(resp.data));
-  });
-
-  useEffect(() => {
     //connection to io server
     socketRef.current = io.connect("http://localhost:3001");
     socketRef.current.on("message", ({ sender, message, addressee }) => {
@@ -50,7 +51,7 @@ const Main = () => {
   };
 
   const onMessageSubmit = (e) => {
-    const { sender, message } = state;
+    const { sender, message, addressee } = state;
     socketRef.current.emit("message", { sender, message, addressee });
     e.preventDefault();
     setState({ message: "", sender, addressee });
@@ -71,16 +72,18 @@ const Main = () => {
     <div className="card">
       <form onSubmit={onMessageSubmit}>
         <h1>Messenger</h1>
-        <div className="name-field">
+        {/* <div className="name-field">
           <TextField
-            name="sender"
-            onChange={(e) => onTextChange(e)}
+            name={JSON.parse(sessionStorage.getItem("userInfo")).UserName}
+            onChange={(e) => setState(e)}
             value={state.sender}
             label="Sender"
           />
-        </div>
+        </div> */}
         <div>
-          <select onChange={(e) => setAddressee(e.target.value)}>
+          <select
+            onChange={(e) => setState({ ...state, addressee: e.target.value })}
+          >
             <option value="defaultValue" disabled selected>
               Select user
             </option>
@@ -103,6 +106,11 @@ const Main = () => {
       <div className="render-chat">
         <h1>Chat Log</h1>
         {renderChat()}
+      </div>
+      <div>
+        <Link href="/chat" variant="body2">
+          link to chat page
+        </Link>
       </div>
     </div>
   );
