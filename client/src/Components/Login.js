@@ -12,7 +12,7 @@ import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
 import { useStyles } from "../style/styleLogin";
 import Box from "@material-ui/core/Box";
-// import { LockOutlinedIcon } from "@material-ui/icons/LockOutlinedIcon";
+// import { LockOutlinedIcon } from "@material-ui/icons/LockOutlined";
 
 function Login() {
   const classes = useStyles();
@@ -46,10 +46,10 @@ function Login() {
       return history.push("/main");
     } else if (response.data.a === "User does not exist !") {
       alert(response.data.a);
-      return history.push("/login");
+      return history.push("/");
     } else {
       alert("Incorrect password !");
-      return history.push("/login");
+      return history.push("/");
     }
   };
 

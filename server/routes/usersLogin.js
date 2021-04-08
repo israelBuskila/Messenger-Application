@@ -9,6 +9,7 @@ router.post("/login", async (req, res, next) => {
     UserName: req.body.UserName,
     Password: req.body.Password,
   };
+
   let a = await auth.authenticationUser(req.body.UserName, req.body.Password);
   jwt.sign({ user: user }, "secretkey", (err, token) => {
     res.json({ a, token });
