@@ -1,4 +1,5 @@
 const usersLoginDAL = require("../DAL/usersLoginDAL");
+
 // const moviesBL = require("../BL/moviesBL");
 // const moviesDAL = require("../DAL/moviesDAL");
 // const membersDAL = require("../DAL/membersDAL");
@@ -19,7 +20,11 @@ exports.authenticationUser = async (userName, password) => {
   if (user[0] === undefined) return "User does not exist !";
   else if (user[0].Password != password) {
     return "Incorrect password !";
-  } else return true;
+  } else {
+    // session.user.UserName = userName;
+
+    return true;
+  }
 };
 
 exports.createUser = async (newUser) => {

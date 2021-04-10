@@ -1,11 +1,14 @@
-import Login from "./Components/Login";
-import SignUp from "./Components/SignUp";
 import { Route, Switch } from "react-router-dom";
-import Main from "./Components/Main";
+
+//local importing
+import Login from "./Login";
+import SignUp from "./SignUp";
+import Main from "./Main";
+import { SocketProvider } from "../contexts/SocketProvider"
 
 const App = () => {
   return (
-    //"Don't have an account? Sign Up"
+    
 
     <div>
       <Switch>

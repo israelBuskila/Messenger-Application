@@ -6,8 +6,11 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import "../style/Sidebar.css";
 import { SearchOutlined } from "@material-ui/icons";
 import SidebarChat from "./SidebarChat";
+import { useChat } from "../contexts/ChatProvider";
 
-function Sidebar() {
+function Sidebar({ users }) {
+  const [select, setSelect] = useChat()
+  
   return (
     <div className="sidebar">
       <div className="sidebar__header">
@@ -32,9 +35,22 @@ function Sidebar() {
         </div>
       </div>
       <div className="sidebar__chats">
-        <SidebarChat />
-        <SidebarChat />
-        <SidebarChat />
+        {users.map((user, index) => {
+          if (
+            user.UserName !==
+            JSON.parse(sessionStorage.getItem("userInfo")).UserName
+          )
+            return (
+              <button
+                key={index}
+                className="btn"
+                onClick={()=>setSelect(index)}
+              >
+                {" "}
+                <SidebarChat key={index} user={user} />
+              </button>
+            );
+        })}
       </div>
     </div>
   );

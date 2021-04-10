@@ -1,14 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
+import App from "./Components/App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
-
+import { SocketProvider } from "./contexts/SocketProvider";
+import { ChatProvider } from "./contexts/ChatProvider";
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <App />
+      <SocketProvider>
+        <ChatProvider>
+          <App />
+        </ChatProvider>
+      </SocketProvider>
     </Router>
   </React.StrictMode>,
   document.getElementById("root")

@@ -52,7 +52,14 @@
 }
 
 .sidebar__chats {
-    flex: 1;
-    background-color: white;
-    overflow: scroll;
+  flex: 1;
+  background-color: white;
+  overflow: scroll;
+}
+
+.btn {
+  background-color: white;
+  border: none;
+  width: 100%;
+  outline: none;
 }

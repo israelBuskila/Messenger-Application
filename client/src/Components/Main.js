@@ -1,11 +1,13 @@
 import "../style/Main.css";
 import Chat from "./Chat";
 import Sidebar from "./Sidebar";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useChat } from "../contexts/ChatProvider";
 import axios from "axios";
 
 function Main() {
   const [users, setUsers] = useState([]);
+  const [select, setSelect] = useChat();
 
   useEffect(() => {
     //get users
@@ -17,8 +19,8 @@ function Main() {
   return (
     <div className="app">
       <div className="app__body">
-        <Sidebar />
-        <Chat />
+        <Sidebar users={users} />
+        <Chat user={users[select]} />
       </div>
     </div>
   );

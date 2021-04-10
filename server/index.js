@@ -1,4 +1,5 @@
 const express = require("express");
+
 const app = express();
 /** Create socket connection */
 const http = require("http").createServer(app);
@@ -29,15 +30,12 @@ app.use(bodyParser.urlencoded({ extended: true })).use(bodyParser.json());
 app.use("/", usersLoginRoutes);
 
 io.on("connection", (socket) => {
-  // console.log("object");
+  
+  // if (session.user == undefined)
+  //   session.user = { SocketId: socket.id, UserName: "" };
+
   WebSockets.sockets(socket);
 });
-// (socket) => {
-//   socket.on("message", ({ name, message }) => {
-//     console.log({ name, message });
-//     io.emit("message", { name, message });
-//   });
-// });
 
 /** Listen on provided port, on all network interfaces. */
 http.listen(port);

@@ -7,6 +7,7 @@ let UsersLoginSchema = new Schema({
   LastName: String,
   UserName: String,
   Password: String,
+  LastMessage: String,
 });
 
 module.exports = mongoose.model("userslogin", UsersLoginSchema);
