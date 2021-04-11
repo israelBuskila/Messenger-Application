@@ -4,7 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import Main from "./Main";
-import { SocketProvider } from "../contexts/SocketProvider"
+
 
 const App = () => {
   return (

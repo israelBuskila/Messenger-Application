@@ -6,11 +6,37 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import "../style/Sidebar.css";
 import { SearchOutlined } from "@material-ui/icons";
 import SidebarChat from "./SidebarChat";
-import { useChat } from "../contexts/ChatProvider";
+import { useUsers } from "../contexts/UsersProvider";
+import { useSelect } from "../contexts/SelectProvider";
 
-function Sidebar({ users }) {
-  const [select, setSelect] = useChat()
-  
+function Sidebar() {
+  const [select, setSelect] = useSelect();
+  const [users] = useUsers();
+
+  const sideBarChat = () => {
+    if (users) {
+      return users.map((user, index) => {
+        if (
+          user.UserName !==
+          JSON.parse(sessionStorage.getItem("userInfo")).UserName
+        ) {
+          return (
+            <button
+              key={index}
+              className="btn"
+              onClick={() => {
+                setSelect(index);
+              }}
+            >
+              {" "}
+              <SidebarChat key={index} user={user} />
+            </button>
+          );
+        }
+      });
+    }
+  };
+
   return (
     <div className="sidebar">
       <div className="sidebar__header">
@@ -34,24 +60,7 @@ function Sidebar({ users }) {
           <input placeholder="Search or start new chat" type="text" />
         </div>
       </div>
-      <div className="sidebar__chats">
-        {users.map((user, index) => {
-          if (
-            user.UserName !==
-            JSON.parse(sessionStorage.getItem("userInfo")).UserName
-          )
-            return (
-              <button
-                key={index}
-                className="btn"
-                onClick={()=>setSelect(index)}
-              >
-                {" "}
-                <SidebarChat key={index} user={user} />
-              </button>
-            );
-        })}
-      </div>
+      <div className="sidebar__chats">{sideBarChat()}</div>
     </div>
   );
 }

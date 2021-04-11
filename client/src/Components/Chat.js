@@ -6,29 +6,41 @@ import React, { useState, useEffect } from "react";
 
 import "../style/Chat.css";
 import { useSocket } from "../contexts/SocketProvider";
+import { useUsers } from "../contexts/UsersProvider";
+import { useSelect } from "../contexts/SelectProvider";
 
-const Chat = (user) => {
+const Chat = () => {
   const socket = useSocket();
   const [chat, setChat] = useState([]);
   const [input, setInput] = useState("");
+  const [users] = useUsers();
+  const [select] = useSelect();
 
   const sender = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
+
   useEffect(() => {
     if (socket == null) {
       return;
     }
-    console.log(user.user.UserName);
+
+    
     socket.emit("username", { UserName: sender });
     socket.on(
-      "message",
-      ({ Sender, Message, Addressee, TimeStamp, SendOrReceive }) => {
+      "private",
+      ({ Sender, Message, Addressee, TimeStamp, SendOrReceive, Type }) => {
         setChat([
           ...chat,
-          { Sender, Message, Addressee, TimeStamp, SendOrReceive },
+          { Sender, Message, Addressee, TimeStamp, SendOrReceive, Type },
         ]);
       }
     );
   });
+
+  const username = () => {
+    if (users.length > 0 && select !== undefined) {
+      return <h3>{users[select].UserName}</h3>;
+    }
+  };
 
   const sendMesage = (e) => {
     e.preventDefault();
@@ -46,14 +58,15 @@ const Chat = (user) => {
     let newMessage = {
       Sender: sender,
       Message: input,
-      Addressee: "avi@",
+      Addressee: users[select].UserName,
       TimeStamp: time,
       SendOrReceive: "chat__message chat__reciver",
     };
+
     socket.emit("private", {
       Sender: sender,
       Message: input,
-      Addressee: "avi@",
+      Addressee: users[select].UserName,
       TimeStamp: time,
       SendOrReceive: "chat__message",
     });
@@ -67,7 +80,7 @@ const Chat = (user) => {
         <Avatar />
 
         <div className="chat__headerInfo">
-          <h3>{user.user.UserName}</h3>
+          {username()}
           <p>Last seen at..</p>
         </div>
 
