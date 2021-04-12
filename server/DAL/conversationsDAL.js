@@ -1,67 +1,65 @@
-const UsersLogin = require("../models/UsersLoginModel");
+const Conversations = require("../models/ConversationsModel");
 
 exports.getAllConversations = function () {
   return new Promise((resolve, reject) => {
-    UsersLogin.find({}, function (err, pers) {
+    Conversations.find({}, function (err, con) {
       if (err) {
         reject(err);
       } else {
-        resolve(pers);
+        resolve(con);
       }
     });
   });
 };
 
-exports.getUserByUserName = (userName) => {
+exports.getConversationByUserName = (userName) => {
   return new Promise((resolve, reject) => {
-    UsersLogin.find({ UserName: userName }, function (err, pers) {
+    Conversations.find({ UserName: userName }, function (err, con) {
       if (err) {
         reject(err);
       } else {
-        resolve(pers);
+        resolve(con);
       }
     });
   });
 };
 
-exports.getUserLoginById = function (id) {
+exports.getConversationById = function (id) {
   return new Promise((resolve, reject) => {
-    UsersLogin.findById(id, function (err, per) {
+    Conversations.findById(id, function (err, con) {
       if (err) {
         reject(err);
       } else {
-        resolve(per);
+        resolve(con);
       }
     });
   });
 };
 
-exports.addUserLogin = function (obj) {
+exports.addConversation = function (obj) {
   return new Promise((resolve, reject) => {
     const p = new UsersLogin({
-      FirstName: obj.FirstName,
-      LastName: obj.LastName,
       UserName: obj.UserName,
-      Password: obj.Password,
+      Chats: obj.Chats,
     });
 
     p.save(function (err, data) {
       if (err) {
         reject(err);
       } else {
-        resolve(data.UserName);
+        resolve(data);
       }
     });
   });
 };
 
-exports.updateUserLogin = function (id, obj) {
+exports.updateConversation = function (id, obj) {
   return new Promise((resolve, reject) => {
-    UsersLogin.findByIdAndUpdate(
+    Conversations.findByIdAndUpdate(
       id,
       {
         UserName: obj.UserName,
-        Password: obj.Password,
+        Chats: obj.Chats,
       },
       function (err) {
         if (err) {
@@ -74,9 +72,9 @@ exports.updateUserLogin = function (id, obj) {
   });
 };
 
-exports.deleteUsersLogin = function (id) {
+exports.deleteConversation = function (id) {
   return new Promise((resolve, reject) => {
-    UsersLogin.findByIdAndDelete(id, function (err) {
+    Conversations.findByIdAndDelete(id, function (err) {
       if (err) {
         reject(err);
       } else {

@@ -1,67 +1,69 @@
-const UsersLogin = require("../models/UsersLoginModel");
+const Groups = require("../models/GruopsModel");
 
-exports.getAllConversations = function () {
+exports.getAllGroups = function () {
   return new Promise((resolve, reject) => {
-    UsersLogin.find({}, function (err, pers) {
+    Groups.find({}, function (err, groups) {
       if (err) {
         reject(err);
       } else {
-        resolve(pers);
+        resolve(groups);
       }
     });
   });
 };
 
-exports.getUserByUserName = (userName) => {
+exports.getGroupByTitle = (title) => {
   return new Promise((resolve, reject) => {
-    UsersLogin.find({ UserName: userName }, function (err, pers) {
+    Groups.find({ Title: title }, function (err, group) {
       if (err) {
         reject(err);
       } else {
-        resolve(pers);
+        resolve(group);
       }
     });
   });
 };
 
-exports.getUserLoginById = function (id) {
+exports.getGroupById = function (id) {
   return new Promise((resolve, reject) => {
-    UsersLogin.findById(id, function (err, per) {
+    Groups.findById(id, function (err, group) {
       if (err) {
         reject(err);
       } else {
-        resolve(per);
+        resolve(group);
       }
     });
   });
 };
 
-exports.addUserLogin = function (obj) {
+exports.addGroup = function (obj) {
   return new Promise((resolve, reject) => {
     const p = new UsersLogin({
-      FirstName: obj.FirstName,
-      LastName: obj.LastName,
-      UserName: obj.UserName,
-      Password: obj.Password,
+      Title: obj.Title,
+      Admins: obj.Admins,
+      Participants: obj.Participants,
+      Messages: bj.Messages,
     });
 
     p.save(function (err, data) {
       if (err) {
         reject(err);
       } else {
-        resolve(data.UserName);
+        resolve(data);
       }
     });
   });
 };
 
-exports.updateUserLogin = function (id, obj) {
+exports.updateGroup = function (id, obj) {
   return new Promise((resolve, reject) => {
-    UsersLogin.findByIdAndUpdate(
+    Groups.findByIdAndUpdate(
       id,
       {
-        UserName: obj.UserName,
-        Password: obj.Password,
+        Title: obj.Title,
+        Admins: obj.Admins,
+        Participants: obj.Participants,
+        Messages: bj.Messages,
       },
       function (err) {
         if (err) {
@@ -74,9 +76,9 @@ exports.updateUserLogin = function (id, obj) {
   });
 };
 
-exports.deleteUsersLogin = function (id) {
+exports.deleteGroup = function (id) {
   return new Promise((resolve, reject) => {
-    UsersLogin.findByIdAndDelete(id, function (err) {
+    Groups.findByIdAndDelete(id, function (err) {
       if (err) {
         reject(err);
       } else {

@@ -8,6 +8,8 @@ let UsersLoginSchema = new Schema({
   UserName: String,
   Password: String,
   LastMessage: String,
+  Blocked: Array,
+  BlockedBy: Array,
 });
 
 module.exports = mongoose.model("userslogin", UsersLoginSchema);

@@ -5,19 +5,29 @@ const auth = require("../BL/authntication");
 const usersLoginDAL = require("../DAL/usersLoginDAL");
 
 router.post("/login", async (req, res, next) => {
-  const user = {
-    UserName: req.body.UserName,
-    Password: req.body.Password,
-  };
+  try {
+    const user = {
+      UserName: req.body.UserName,
+      Password: req.body.Password,
+    };
 
-  let a = await auth.authenticationUser(req.body.UserName, req.body.Password);
-  jwt.sign({ user: user }, "secretkey", (err, token) => {
-    res.json({ a, token });
-  });
+    let a = await auth.authenticationUser(req.body.UserName, req.body.Password);
+    jwt.sign({ user: user }, "secretkey", (err, token) => {
+      res.json({ a, token });
+    });
+  } catch (err) {
+    console.error(err);
+    res.json({ error: err });
+  }
 });
 
 router.get("/users", async (req, res, next) => {
-  res.send(await usersLoginDAL.getAllUsersLogin());
+  try {
+    res.send(await usersLoginDAL.getAllUsersLogin());
+  } catch (err) {
+    console.error(err);
+    res.json({ error: err });
+  }
 });
 
 router.post("/api", verifyToken, (req, res) => {
@@ -45,9 +55,13 @@ function verifyToken(req, res, next) {
 }
 
 router.post("/createAccount", async (req, res, next) => {
-  let a = await auth.createUser(req.body);
-
-  return res.send(a);
+  try {
+    let a = await auth.createUser(req.body);
+    return res.send(a);
+  } catch (err) {
+    console.error(err);
+    res.json({ error: err });
+  }
 });
 
 module.exports = router;
