@@ -1,6 +1,6 @@
 const UsersLogin = require("../models/UsersLoginModel");
 
-exports.getAllConversations = function () {
+exports.getAllUsersLogin = function () {
   return new Promise((resolve, reject) => {
     UsersLogin.find({}, function (err, pers) {
       if (err) {

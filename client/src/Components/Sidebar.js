@@ -11,7 +11,7 @@ import { useSelect } from "../contexts/SelectProvider";
 
 function Sidebar() {
   const [select, setSelect] = useSelect();
-  const [users] = useUsers();
+  const [users, setUsers] = useUsers();
 
   const sideBarChat = () => {
     if (users) {

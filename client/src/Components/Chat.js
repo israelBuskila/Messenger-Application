@@ -23,18 +23,19 @@ const Chat = () => {
       return;
     }
 
-    
     socket.emit("username", { UserName: sender });
     socket.on(
       "private",
       ({ Sender, Message, Addressee, TimeStamp, SendOrReceive, Type }) => {
-        setChat([
-          ...chat,
-          { Sender, Message, Addressee, TimeStamp, SendOrReceive, Type },
-        ]);
+      
+          setChat([
+            ...chat,
+            { Sender, Message, Addressee, TimeStamp, SendOrReceive, Type },
+          ]);
+        
       }
     );
-  });
+  }, [chat]);
 
   const username = () => {
     if (users.length > 0 && select !== undefined) {
