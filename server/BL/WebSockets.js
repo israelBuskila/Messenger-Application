@@ -1,4 +1,7 @@
+const conversationDAL = require("../DAL/conversationsDAL");
+
 const onlineUsers = [];
+
 exports.sockets = (socket) => {
   socket.on("username", ({ UserName }) => {
     var found = false;
@@ -16,7 +19,14 @@ exports.sockets = (socket) => {
   socket.on(
     "private",
     ({ Sender, Message, Addressee, TimeStamp, SendOrReceive, Type }) => {
-      console.log({ Sender, Message, Addressee, TimeStamp, SendOrReceive, Type });
+      console.log({
+        Sender,
+        Message,
+        Addressee,
+        TimeStamp,
+        SendOrReceive,
+        Type,
+      });
       let user = onlineUsers.filter((x) => x.UserName == Addressee);
       if (user[0]) {
         console.log(user[0]);
@@ -26,7 +36,7 @@ exports.sockets = (socket) => {
           Addressee,
           TimeStamp,
           SendOrReceive,
-          Type
+          Type,
         });
       }
     }
