@@ -14,7 +14,7 @@ exports.getAllConversations = function () {
 
 exports.getConversationByUserName = (userName) => {
   return new Promise((resolve, reject) => {
-    Conversations.find({ UserName: userName }, function (err, con) {
+    Conversations.find({ UsersName: userName }, function (err, con) {
       if (err) {
         reject(err);
       } else {
@@ -38,9 +38,9 @@ exports.getConversationById = function (id) {
 
 exports.addConversation = function (obj) {
   return new Promise((resolve, reject) => {
-    const p = new UsersLogin({
-      UserName: obj.UserName,
-      Chats: obj.Chats,
+    const p = new Conversations({
+      UsersName: obj.UserName,
+      Chat: obj.Chats,
     });
 
     p.save(function (err, data) {
@@ -58,8 +58,8 @@ exports.updateConversation = function (id, obj) {
     Conversations.findByIdAndUpdate(
       id,
       {
-        UserName: obj.UserName,
-        Chats: obj.Chats,
+        UsersName: obj.UserName,
+        Chat: obj.Chats,
       },
       function (err) {
         if (err) {

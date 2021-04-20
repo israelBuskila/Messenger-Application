@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 let Schema = mongoose.Schema;
 
 let ConversationsSchema = new Schema({
-  UserName: String,
-  Chats: Array,
+  UsersName: String,
+  Chat: Array,
 });
 
 module.exports = mongoose.model("Conversations", ConversationsSchema);
