@@ -8,38 +8,65 @@ import "../style/Chat.css";
 import { useSocket } from "../contexts/SocketProvider";
 import { useUsers } from "../contexts/UsersProvider";
 import { useSelect } from "../contexts/SelectProvider";
+import { useChats } from "../contexts/ChatsProvider";
 
 const Chat = () => {
   const socket = useSocket();
-  const [chat, setChat] = useState([]);
+  // const [chat, setChat] = useState([]);
   const [input, setInput] = useState("");
   const [users] = useUsers();
-  const [select] = useSelect();
+  const [select] = useSelect(0);
+  const [chats, setChats] = useChats([]);
+  const [index, setIndex] = useState();
 
   const sender = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
 
   useEffect(() => {
-    if (socket == null) {
-      return;
-    }
-
-    socket.emit("username", { UserName: sender });
-    socket.on(
-      "private",
-      ({ Sender, Message, Addressee, TimeStamp, SendOrReceive, Type }) => {
-        setChat([
-          ...chat,
-          { Sender, Message, Addressee, TimeStamp, SendOrReceive, Type },
-        ]);
+    chats.forEach((x, i) => {
+      if (x.UserB === users[select].UserName) {
+        setIndex(i);
+        // console.log(users[select].UserName);
+        // setChat(x.Chat);
+        // console.log(x.Chat);
+        // console.log(chat);
       }
-    );
+    });
+  }, [select, chats]);
 
-   
-  }, [chat]);
+  // useEffect(() => {
+  //   if (socket == null) {
+  //     return;
+  //   }
+  //   console.log("loop");
+  //   socket.emit("username", { UserName: sender });
+  //   socket.on(
+  //     "private",
+  //     ({ Sender, Message, Addressee, TimeStamp, SendOrReceive, Type }) => {
+  //       setChat([
+  //         ...chat,
+  //         { Sender, Message, Addressee, TimeStamp, SendOrReceive, Type },
+  //       ]);
+  //     }
+  //   );
+  // }, [chat]);
 
   const username = () => {
     if (users.length > 0 && select !== undefined) {
       return <h3>{users[select].UserName}</h3>;
+    }
+  };
+
+  const showChat = () => {
+    if (chats && index) {
+      return chats[index].Chat.map((message, index) => {
+        return (
+          <p key={index} className={message.SendOrReceive}>
+            <span className="chat__name">{message.Sender}</span>
+            {message.Message}
+            <span className="chat__timestamp">{message.TimeStamp}</span>
+          </p>
+        );
+      });
     }
   };
 
@@ -71,7 +98,11 @@ const Chat = () => {
       TimeStamp: time,
       SendOrReceive: "chat__message",
     });
-    setChat([...chat, newMessage]);
+    let arr = [...chats];
+
+    arr[index].Chat.push(newMessage);
+
+    setChats(arr);
     setInput("");
   };
 
@@ -98,15 +129,8 @@ const Chat = () => {
         </div>
       </div>
       <div className="chat__body">
-        {chat.map((message, index) => {
-          return (
-            <p key={index} className={message.SendOrReceive}>
-              <span className="chat__name">{message.Sender}</span>
-              {message.Message}
-              <span className="chat__timestamp">{message.TimeStamp}</span>
-            </p>
-          );
-        })}
+        {showChat()}
+
         {/* <p className="chat__message">
           <span className="chat__name">Sonny</span>
           This is a message

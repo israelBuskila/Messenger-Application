@@ -11,6 +11,7 @@ const bodyParser = require("body-parser");
 
 // routes
 const usersLoginRoutes = require("./routes/usersLogin");
+const chatsRoutes = require("./routes/chats");
 
 // mongo connection
 require("./configs/database");
@@ -28,6 +29,7 @@ app.set("port", port);
 app.use(bodyParser.urlencoded({ extended: true })).use(bodyParser.json());
 
 app.use("/", usersLoginRoutes);
+app.use("/chats",chatsRoutes)
 
 io.on("connection", (socket) => {
   

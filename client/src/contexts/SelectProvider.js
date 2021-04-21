@@ -9,6 +9,7 @@ export function useSelect() {
 export function SelectProvider({ children }) {
   const [select, setSelect] = useState(0);
 
+
   return (
     // eslint-disable-next-line no-sequences
     <SelectContext.Provider value={[select, setSelect]}>

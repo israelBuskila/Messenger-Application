@@ -7,6 +7,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { SocketProvider } from "./contexts/SocketProvider";
 import { UsersProvider } from "./contexts/UsersProvider";
 import { SelectProvider } from "./contexts/SelectProvider";
+import { ChatsProvider } from "./contexts/ChatsProvider";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -14,7 +15,9 @@ ReactDOM.render(
       <SocketProvider>
         <UsersProvider>
           <SelectProvider>
-            <App />
+            <ChatsProvider>
+              <App />
+            </ChatsProvider>
           </SelectProvider>
         </UsersProvider>
       </SocketProvider>

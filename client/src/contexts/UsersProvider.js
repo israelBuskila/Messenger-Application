@@ -11,12 +11,12 @@ export function UsersProvider({ children }) {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    console.log("object");
     //get users
-    axios.get("http://localhost:3001/users").then((resp) => {
-      setUsers(resp.data);
-    });
-  }, []);
+    if (users.length === 0)
+      axios.get("http://localhost:3001/users").then((resp) => {
+        setUsers(resp.data);
+      });
+  }, [users]);
 
   return (
     // eslint-disable-next-line no-sequences

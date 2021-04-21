@@ -14,13 +14,16 @@ exports.getAllConversations = function () {
 
 exports.getConversationByUserName = (userName) => {
   return new Promise((resolve, reject) => {
-    Conversations.find({ UsersName: userName }, function (err, con) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(con);
+    Conversations.find(
+      { $or: [{ UserA: userName }, { UserB: userName }] },
+      function (err, con) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(con);
+        }
       }
-    });
+    );
   });
 };
 
@@ -39,7 +42,8 @@ exports.getConversationById = function (id) {
 exports.addConversation = function (obj) {
   return new Promise((resolve, reject) => {
     const p = new Conversations({
-      UsersName: obj.UserName,
+      UserA: obj.UserA,
+      UserB: obj.UserB,
       Chat: obj.Chats,
     });
 
