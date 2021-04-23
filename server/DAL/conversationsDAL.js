@@ -12,10 +12,32 @@ exports.getAllConversations = function () {
   });
 };
 
-exports.getConversationByUserName = (userName) => {
+exports.getConversationByUsersName = (userA, userB) => {
   return new Promise((resolve, reject) => {
     Conversations.find(
-      { $or: [{ UserA: userName }, { UserB: userName }] },
+      {
+        $and: [
+          { $or: [{ UserA: userA }, { UserA: userB }] },
+          { $or: [{ UserB: userA }, { UserB: userB }] },
+        ],
+      },
+      function (err, con) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(con);
+        }
+      }
+    );
+  });
+};
+
+exports.getConversationsByUserName = (userName) => {
+  return new Promise((resolve, reject) => {
+    Conversations.find(
+      {
+        $or: [{ UserA: userName }, { UserB: userName }],
+      },
       function (err, con) {
         if (err) {
           reject(err);
@@ -62,7 +84,8 @@ exports.updateConversation = function (id, obj) {
     Conversations.findByIdAndUpdate(
       id,
       {
-        UsersName: obj.UserName,
+        UserA: obj.UserA,
+        UserB: obj.UserB,
         Chat: obj.Chats,
       },
       function (err) {

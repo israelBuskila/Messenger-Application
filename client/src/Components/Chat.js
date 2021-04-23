@@ -12,10 +12,9 @@ import { useChats } from "../contexts/ChatsProvider";
 
 const Chat = () => {
   const socket = useSocket();
-  // const [chat, setChat] = useState([]);
   const [input, setInput] = useState("");
   const [users] = useUsers();
-  const [select] = useSelect(0);
+  const [select] = useSelect();
   const [chats, setChats] = useChats([]);
   const [index, setIndex] = useState();
 
@@ -23,32 +22,35 @@ const Chat = () => {
 
   useEffect(() => {
     chats.forEach((x, i) => {
-      if (x.UserB === users[select].UserName) {
+      if (
+        x.UserA === users[select].UserName ||
+        x.UserB === users[select].UserName
+      ) {
         setIndex(i);
-        // console.log(users[select].UserName);
-        // setChat(x.Chat);
-        // console.log(x.Chat);
-        // console.log(chat);
       }
     });
+
+    
+    console.log("loop");
+    if (socket == null) {
+      return;
+    }
+    socket.emit("username", { UserName: sender });
+
+    
+    console.log(index)
+    socket.on("private", (newMessage) => {
+      let arr = [...chats];
+      arr[index].Chat.push(newMessage);
+      setChats(arr);
+    });
+
   }, [select, chats]);
 
-  // useEffect(() => {
-  //   if (socket == null) {
-  //     return;
-  //   }
-  //   console.log("loop");
-  //   socket.emit("username", { UserName: sender });
-  //   socket.on(
-  //     "private",
-  //     ({ Sender, Message, Addressee, TimeStamp, SendOrReceive, Type }) => {
-  //       setChat([
-  //         ...chat,
-  //         { Sender, Message, Addressee, TimeStamp, SendOrReceive, Type },
-  //       ]);
-  //     }
-  //   );
-  // }, [chat]);
+  useEffect(()=>{
+    
+   
+  },[chats])
 
   const username = () => {
     if (users.length > 0 && select !== undefined) {
@@ -57,11 +59,12 @@ const Chat = () => {
   };
 
   const showChat = () => {
-    if (chats && index) {
-      return chats[index].Chat.map((message, index) => {
+    if (chats && index !== undefined) {
+      return chats[index].Chat.map((message, i) => {
         return (
-          <p key={index} className={message.SendOrReceive}>
+          <p key={i} className={message.SendOrReceive}>
             <span className="chat__name">{message.Sender}</span>
+
             {message.Message}
             <span className="chat__timestamp">{message.TimeStamp}</span>
           </p>
@@ -91,13 +94,7 @@ const Chat = () => {
       SendOrReceive: "chat__message chat__reciver",
     };
 
-    socket.emit("private", {
-      Sender: sender,
-      Message: input,
-      Addressee: users[select].UserName,
-      TimeStamp: time,
-      SendOrReceive: "chat__message",
-    });
+    socket.emit("private", newMessage);
     let arr = [...chats];
 
     arr[index].Chat.push(newMessage);

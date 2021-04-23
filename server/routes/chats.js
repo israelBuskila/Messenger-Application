@@ -4,13 +4,10 @@ const conversatiosDAL = require("../DAL/conversationsDAL");
 
 router.post("/", async (req, res, next) => {
   try {
-    console.log(req.body);
-    let resp = await conversatiosDAL.getConversationByUserName(
+    let resp = await conversatiosDAL.getConversationsByUserName(
       req.body.UserName
     );
-    resp.forEach((element) => {
-      console.log(element);
-    });
+
     res.send(resp);
   } catch (err) {
     console.error(err);

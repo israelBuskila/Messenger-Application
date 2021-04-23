@@ -25,12 +25,27 @@ exports.sockets = (socket) => {
       socket.to(user[0].SocketId).emit("private", newMessage);
     }
 
-    let obj = {
-      UserA: newMessage.Sender,
-      UserB: newMessage.Addressee,
-      Chats: [newMessage],
-    };
-    await conversationDAL.addConversation(obj);
+    let search = await conversationDAL.getConversationByUsersName(
+      newMessage.Sender,
+      newMessage.Addressee
+    );
+    if (search.length > 0) {
+      let id = search[0]._id;
+      let arr = search[0].Chat;
+      arr.push(newMessage);
+      await conversationDAL.updateConversation(id, {
+        UserA: search[0].UserA,
+        UserB: search[0].UserB,
+        Chats: arr,
+      });
+    } else {
+      let obj = {
+        UserA: newMessage.Sender,
+        UserB: newMessage.Addressee,
+        Chats: [newMessage],
+      };
+      await conversationDAL.addConversation(obj);
+    }
   });
 
   //remove user fron onlineUsers when user disconnect
@@ -42,7 +57,7 @@ exports.sockets = (socket) => {
         onlineUsers.splice(index, 1);
       }
     });
-    let chat = await conversationDAL.getConversationByUserName("avi@");
+    // let chat = await conversationDAL.getConversationByUsersName("avi@", "einav");
     // console.log(chat);
     // onlineUsers.forEach((x) => console.log(x));
     // console.log("length of onlineUsers: " + onlineUsers.length);

@@ -19,7 +19,7 @@ function Main() {
   useEffect(() => {
     axios
       .post("http://localhost:3001/chats", { UserName: username })
-      .then((resp) => {
+      .then((resp) => {console.log(resp.data)
         setChats(resp.data);
       });
 
