@@ -31,14 +31,14 @@ const Chat = () => {
     });
 
     
-    console.log("loop");
+    
     if (socket == null) {
       return;
     }
     socket.emit("username", { UserName: sender });
 
     
-    console.log(index)
+   
     socket.on("private", (newMessage) => {
       let arr = [...chats];
       arr[index].Chat.push(newMessage);
