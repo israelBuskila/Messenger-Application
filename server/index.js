@@ -1,10 +1,17 @@
 const express = require("express");
+var cors = require("cors");
 
 const app = express();
+app.use(cors());
+
 /** Create socket connection */
 const http = require("http").createServer(app);
 // import socketio from "socket.io";
-const io = require("socket.io")(http);
+const io = require("socket.io")(http, {
+  cors: {
+    origin: "*",
+  },
+});
 
 //import body-parser
 const bodyParser = require("body-parser");
@@ -29,10 +36,18 @@ app.set("port", port);
 app.use(bodyParser.urlencoded({ extended: true })).use(bodyParser.json());
 
 app.use("/", usersLoginRoutes);
-app.use("/chats",chatsRoutes)
+app.use("/chats", chatsRoutes);
+
+// app.use(function (request, response, next) {
+//   response.header("Access-Control-Allow-Origin", "*");
+//   response.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   next();
+// });
 
 io.on("connection", (socket) => {
-  
   // if (session.user == undefined)
   //   session.user = { SocketId: socket.id, UserName: "" };
 

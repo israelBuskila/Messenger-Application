@@ -23,34 +23,31 @@ const Chat = () => {
   useEffect(() => {
     chats.forEach((x, i) => {
       if (
-        x.UserA === users[select].UserName ||
-        x.UserB === users[select].UserName
+        (x.UserA === users[select].UserName ||
+        x.UserB === users[select].UserName) && (x.UserA === sender ||
+          x.UserB === sender)
       ) {
-        setIndex(i);
+       
+         setIndex(i);
       }
+      console.log("index: "+ index)
     });
+  }, [select]);
 
-    
-    
+  useEffect(() => {
     if (socket == null) {
       return;
     }
     socket.emit("username", { UserName: sender });
 
-    
-   
     socket.on("private", (newMessage) => {
-      let arr = [...chats];
-      arr[index].Chat.push(newMessage);
-      setChats(arr);
+      let arr = chats;
+      console.log(arr[index].Chat);
+
+     arr[index].Chat.push(newMessage);
+       setChats(arr);
     });
-
-  }, [select, chats]);
-
-  useEffect(()=>{
-    
-   
-  },[chats])
+  }, [chats]);
 
   const username = () => {
     if (users.length > 0 && select !== undefined) {
@@ -95,11 +92,12 @@ const Chat = () => {
     };
 
     socket.emit("private", newMessage);
-    let arr = [...chats];
+    let arr = chats[index].Chat
 
-    arr[index].Chat.push(newMessage);
+    // arr[index].Chat.push(newMessage);
+    arr.push(newMessage);
 
-    setChats(arr);
+    // setChats(arr);
     setInput("");
   };
 
