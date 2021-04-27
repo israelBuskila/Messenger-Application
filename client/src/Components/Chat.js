@@ -24,13 +24,12 @@ const Chat = () => {
     chats.forEach((x, i) => {
       if (
         (x.UserA === users[select].UserName ||
-        x.UserB === users[select].UserName) && (x.UserA === sender ||
-          x.UserB === sender)
+          x.UserB === users[select].UserName) &&
+        (x.UserA === sender || x.UserB === sender)
       ) {
-       
-         setIndex(i);
+        setIndex(i);
       }
-      console.log("index: "+ index)
+      console.log("index: " + index);
     });
   }, [select]);
 
@@ -39,15 +38,20 @@ const Chat = () => {
       return;
     }
     socket.emit("username", { UserName: sender });
-
+    let arr = [...chats];
     socket.on("private", (newMessage) => {
-      let arr = chats;
-      console.log(arr[index].Chat);
+      arr.forEach((x, t) => {
+        if (
+          (x.UserA === newMessage.Sender || x.UserB === newMessage.Sender) &&
+          (x.UserA === sender || x.UserB === sender)
+        ) {
+          arr[t].Chat.push(newMessage);
 
-     arr[index].Chat.push(newMessage);
-       setChats(arr);
+          return setChats(arr);
+        }
+      });
     });
-  }, [chats]);
+  }, [socket]);
 
   const username = () => {
     if (users.length > 0 && select !== undefined) {
@@ -56,10 +60,14 @@ const Chat = () => {
   };
 
   const showChat = () => {
+    let chatName;
     if (chats && index !== undefined) {
       return chats[index].Chat.map((message, i) => {
+        if (message.Sender === sender) {
+          chatName = "chat__message chat__reciver";
+        } else chatName = "chat__message";
         return (
-          <p key={i} className={message.SendOrReceive}>
+          <p key={i} className={chatName}>
             <span className="chat__name">{message.Sender}</span>
 
             {message.Message}
@@ -92,7 +100,7 @@ const Chat = () => {
     };
 
     socket.emit("private", newMessage);
-    let arr = chats[index].Chat
+    let arr = chats[index].Chat;
 
     // arr[index].Chat.push(newMessage);
     arr.push(newMessage);
@@ -126,17 +134,6 @@ const Chat = () => {
       <div className="chat__body">
         {showChat()}
 
-        {/* <p className="chat__message">
-          <span className="chat__name">Sonny</span>
-          This is a message
-          <span className="chat__timestamp">{new Date().toUTCString()}</span>
-        </p>
-
-        <p className="chat__message chat__reciver">
-          <span className="chat__name">Sonny</span>
-          This is a message
-          <span className="chat__timestamp">{new Date().toUTCString()}</span>
-        </p> */}
       </div>
 
       <div className="chat__footer">
