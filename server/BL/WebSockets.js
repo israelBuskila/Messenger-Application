@@ -14,21 +14,22 @@ exports.sockets = (socket) => {
     if (found == false) onlineUsers.push({ UserName, SocketId: socket.id });
     onlineUsers.forEach((x) => console.log(x));
   });
- 
 
   // to individual socketid (private message)
   socket.on("private", async (newMessage) => {
-  
+    console.log(newMessage);
+    console.log(onlineUsers);
     let user = onlineUsers.filter((x) => x.UserName == newMessage.Addressee);
     if (user[0]) {
-     
       socket.to(user[0].SocketId).emit("private", newMessage);
+      console.log("m:"+newMessage);
     }
 
     let search = await conversationDAL.getConversationByUsersName(
       newMessage.Sender,
       newMessage.Addressee
     );
+
     if (search.length > 0) {
       let id = search[0]._id;
       let arr = search[0].Chat;

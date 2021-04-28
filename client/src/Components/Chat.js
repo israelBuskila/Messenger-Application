@@ -21,37 +21,37 @@ const Chat = () => {
   const sender = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
 
   useEffect(() => {
+    let userExist = false;
+    console.log(chats);
     chats.forEach((x, i) => {
       if (
         (x.UserA === users[select].UserName ||
           x.UserB === users[select].UserName) &&
         (x.UserA === sender || x.UserB === sender)
       ) {
+        userExist = true;
         setIndex(i);
       }
-      console.log("index: " + index);
     });
+    // if (userExist === false) {
+    //   let newMessage = {
+    //     Sender: sender,
+    //     Message: "",
+    //     Addressee: users[select].UserName,
+    //     TimeStamp: "",
+    //   };
+    //   socket.emit("start_new_conversation", newMessage);
+    //   let arr = [...chats];
+    //   arr.push({
+    //     Chat: [newMessage],
+    //     UserA: sender,
+    //     UserB: users[select].UserName,
+    //   });
+    //   setChats(arr);
+    //   setIndex(arr.length - 1);
+    // }
+    console.log(index);
   }, [select]);
-
-  useEffect(() => {
-    if (socket == null) {
-      return;
-    }
-    socket.emit("username", { UserName: sender });
-    let arr = [...chats];
-    socket.on("private", (newMessage) => {
-      arr.forEach((x, t) => {
-        if (
-          (x.UserA === newMessage.Sender || x.UserB === newMessage.Sender) &&
-          (x.UserA === sender || x.UserB === sender)
-        ) {
-          arr[t].Chat.push(newMessage);
-
-          return setChats(arr);
-        }
-      });
-    });
-  }, [socket]);
 
   const username = () => {
     if (users.length > 0 && select !== undefined) {
@@ -100,12 +100,12 @@ const Chat = () => {
     };
 
     socket.emit("private", newMessage);
-    let arr = chats[index].Chat;
 
-    // arr[index].Chat.push(newMessage);
-    arr.push(newMessage);
+    let arr = [...chats];
 
-    // setChats(arr);
+    arr[index].Chat.push(newMessage);
+
+    setChats(arr);
     setInput("");
   };
 
@@ -131,10 +131,7 @@ const Chat = () => {
           </IconButton>
         </div>
       </div>
-      <div className="chat__body">
-        {showChat()}
-
-      </div>
+      <div className="chat__body">{showChat()}</div>
 
       <div className="chat__footer">
         <InsertEmotconIcon />
