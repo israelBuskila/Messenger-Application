@@ -8,11 +8,24 @@ import { SearchOutlined } from "@material-ui/icons";
 import SidebarChat from "./SidebarChat";
 import { useUsers } from "../contexts/UsersProvider";
 import { useSelect } from "../contexts/SelectProvider";
+import { useSocket } from "../contexts/SocketProvider";
 
 function Sidebar() {
   const [select, setSelect] = useSelect();
   const [users, setUsers] = useUsers();
+  const socket = useSocket();
 
+  const sender = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
+
+  const createGroup = () => {
+    console.log("clicked");
+    let newGroup = {
+      Title: "test",
+      Admin: [{ sender }],
+      Messages: [{ message: "user added you" }],
+    };
+    socket.emit("createGroup", newGroup);
+  };
   const sideBarChat = () => {
     if (users) {
       return users.map((user, index) => {
@@ -48,7 +61,7 @@ function Sidebar() {
           <IconButton>
             <ChatIcon />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={createGroup}>
             <MoreVertIcon />
           </IconButton>
         </div>

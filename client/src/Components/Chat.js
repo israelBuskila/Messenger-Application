@@ -13,7 +13,7 @@ import { useChats } from "../contexts/ChatsProvider";
 const Chat = () => {
   const socket = useSocket();
   const [input, setInput] = useState("");
-  const [users] = useUsers();
+  const [users, setUsers] = useUsers();
   const [select] = useSelect();
   const [chats, setChats] = useChats([]);
   const [index, setIndex] = useState();
@@ -21,7 +21,6 @@ const Chat = () => {
   const sender = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
 
   useEffect(() => {
-    let userExist = false;
     console.log(chats);
     chats.forEach((x, i) => {
       if (
@@ -29,28 +28,9 @@ const Chat = () => {
           x.UserB === users[select].UserName) &&
         (x.UserA === sender || x.UserB === sender)
       ) {
-        userExist = true;
         setIndex(i);
       }
     });
-    // if (userExist === false) {
-    //   let newMessage = {
-    //     Sender: sender,
-    //     Message: "",
-    //     Addressee: users[select].UserName,
-    //     TimeStamp: "",
-    //   };
-    //   socket.emit("start_new_conversation", newMessage);
-    //   let arr = [...chats];
-    //   arr.push({
-    //     Chat: [newMessage],
-    //     UserA: sender,
-    //     UserB: users[select].UserName,
-    //   });
-    //   setChats(arr);
-    //   setIndex(arr.length - 1);
-    // }
-    console.log(index);
   }, [select]);
 
   const username = () => {
@@ -96,7 +76,6 @@ const Chat = () => {
       Message: input,
       Addressee: users[select].UserName,
       TimeStamp: time,
-      SendOrReceive: "chat__message chat__reciver",
     };
 
     socket.emit("private", newMessage);
@@ -107,6 +86,9 @@ const Chat = () => {
 
     setChats(arr);
     setInput("");
+
+  
+    
   };
 
   return (

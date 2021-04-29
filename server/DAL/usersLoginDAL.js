@@ -43,6 +43,7 @@ exports.addUserLogin = function (obj) {
       LastName: obj.LastName,
       UserName: obj.UserName,
       Password: obj.Password,
+      Groups: obj.Groups,
     });
 
     p.save(function (err, data) {
@@ -60,8 +61,11 @@ exports.updateUserLogin = function (id, obj) {
     UsersLogin.findByIdAndUpdate(
       id,
       {
+        FirstName: obj.FirstName,
+        LastName: obj.LastName,
         UserName: obj.UserName,
         Password: obj.Password,
+        Groups: obj.Groups,
       },
       function (err) {
         if (err) {

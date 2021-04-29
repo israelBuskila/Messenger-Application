@@ -1,4 +1,4 @@
-const Groups = require("../models/GruopsModel");
+const Groups = require("../models/GroupsModel");
 
 exports.getAllGroups = function () {
   return new Promise((resolve, reject) => {
@@ -38,11 +38,10 @@ exports.getGroupById = function (id) {
 
 exports.addGroup = function (obj) {
   return new Promise((resolve, reject) => {
-    const p = new UsersLogin({
+    const p = new Groups({
       Title: obj.Title,
       Admins: obj.Admins,
-      Participants: obj.Participants,
-      Messages: bj.Messages,
+      Messages: obj.Messages,
     });
 
     p.save(function (err, data) {
@@ -62,7 +61,6 @@ exports.updateGroup = function (id, obj) {
       {
         Title: obj.Title,
         Admins: obj.Admins,
-        Participants: obj.Participants,
         Messages: bj.Messages,
       },
       function (err) {

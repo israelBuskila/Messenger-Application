@@ -1,4 +1,5 @@
 const usersLoginDAL = require("../DAL/usersLoginDAL");
+const conversationsBL = require("./conversations");
 
 // const moviesBL = require("../BL/moviesBL");
 // const moviesDAL = require("../DAL/moviesDAL");
@@ -30,6 +31,7 @@ exports.authenticationUser = async (userName, password) => {
 exports.createUser = async (newUser) => {
   let user = await usersLoginDAL.getUserByUserName(newUser.UserName);
   if (user[0] === undefined) {
+    await conversationsBL.initforNewUser(newUser.UserName);
     let resp = await usersLoginDAL.addUserLogin(newUser);
     console.log(resp);
     return resp;

@@ -1,4 +1,6 @@
 const conversationDAL = require("../DAL/conversationsDAL");
+const groupDAL = require("../DAL/groupsDAL");
+const usersLoginDAL = require("../DAL/usersLoginDAL");
 
 const onlineUsers = [];
 
@@ -17,12 +19,9 @@ exports.sockets = (socket) => {
 
   // to individual socketid (private message)
   socket.on("private", async (newMessage) => {
-    console.log(newMessage);
-    console.log(onlineUsers);
     let user = onlineUsers.filter((x) => x.UserName == newMessage.Addressee);
     if (user[0]) {
       socket.to(user[0].SocketId).emit("private", newMessage);
-      console.log("m:"+newMessage);
     }
 
     let search = await conversationDAL.getConversationByUsersName(
@@ -37,30 +36,31 @@ exports.sockets = (socket) => {
       await conversationDAL.updateConversation(id, {
         UserA: search[0].UserA,
         UserB: search[0].UserB,
-        Chats: arr,
+        Chat: arr,
       });
     } else {
       let obj = {
         UserA: newMessage.Sender,
         UserB: newMessage.Addressee,
-        Chats: [newMessage],
+        Chat: [newMessage],
       };
       await conversationDAL.addConversation(obj);
     }
   });
 
+  socket.on("createGroup", async (newGroup, members) => {
+    console.log("clicked");
+    let resp = await groupDAL.addGroup(newGroup);
+    console.log(resp);
+  });
+
   //remove user fron onlineUsers when user disconnect
   socket.on("disconnect", async function () {
-    // var connectionMessage = socket.username + " Disconnected from Socket " + socket.id;
     console.log(" Disconnected from Socket ");
     onlineUsers.forEach((user, index) => {
       if (user.SocketId === socket.id) {
         onlineUsers.splice(index, 1);
       }
     });
-    // let chat = await conversationDAL.getConversationByUsersName("avi@", "einav");
-    // console.log(chat);
-    // onlineUsers.forEach((x) => console.log(x));
-    // console.log("length of onlineUsers: " + onlineUsers.length);
   });
 };

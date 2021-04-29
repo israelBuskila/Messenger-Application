@@ -66,7 +66,7 @@ exports.addConversation = function (obj) {
     const p = new Conversations({
       UserA: obj.UserA,
       UserB: obj.UserB,
-      Chat: obj.Chats,
+      Chat: obj.Chat,
     });
 
     p.save(function (err, data) {
@@ -86,7 +86,7 @@ exports.updateConversation = function (id, obj) {
       {
         UserA: obj.UserA,
         UserB: obj.UserB,
-        Chat: obj.Chats,
+        Chat: obj.Chat,
       },
       function (err) {
         if (err) {

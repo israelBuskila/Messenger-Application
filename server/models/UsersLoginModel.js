@@ -8,6 +8,7 @@ let UsersLoginSchema = new Schema({
   UserName: String,
   Password: String,
   LastMessage: String,
+  Groups: Array,
   Blocked: Array,
   BlockedBy: Array,
 });

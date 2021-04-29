@@ -13,10 +13,17 @@ function Main() {
   const socket = useSocket();
   const [chats, setChats] = useChats();
   const [select] = useSelect();
-  const [users] = useUsers();
+  const [users, setUsers] = useUsers();
   const [chat, setChat] = useState();
 
   const username = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
+  useEffect(() => {
+    //get users
+    if (users.length === 0)
+      axios.get("http://localhost:3001/users").then((resp) => {
+        setUsers(resp.data);
+      });
+  }, [users]);
 
   useEffect(() => {
     axios

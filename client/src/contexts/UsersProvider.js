@@ -10,13 +10,13 @@ export function useUsers() {
 export function UsersProvider({ children }) {
   const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    //get users
-    if (users.length === 0)
-      axios.get("http://localhost:3001/users").then((resp) => {
-        setUsers(resp.data);
-      });
-  }, [users]);
+  // useEffect(() => {
+  //   //get users
+  //   if (users.length === 0)
+  //     axios.get("http://localhost:3001/users").then((resp) => {
+  //       setUsers(resp.data);
+  //     });
+  // }, [users]);
 
   return (
     // eslint-disable-next-line no-sequences
