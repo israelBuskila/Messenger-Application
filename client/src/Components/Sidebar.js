@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import DonutLargeIcon from "@material-ui/icons/DonutLarge";
-import { Avatar, IconButton } from "@material-ui/core";
+import { Avatar, IconButton, styled } from "@material-ui/core";
 import ChatIcon from "@material-ui/icons/Chat";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import "../style/Sidebar.css";
@@ -9,22 +9,24 @@ import SidebarChat from "./SidebarChat";
 import { useUsers } from "../contexts/UsersProvider";
 import { useSelect } from "../contexts/SelectProvider";
 import { useSocket } from "../contexts/SocketProvider";
+import style from "styled-components";
 
 function Sidebar() {
   const [select, setSelect] = useSelect();
   const [users, setUsers] = useUsers();
+  const [display, setDisplay] = useState(false);
   const socket = useSocket();
 
   const sender = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
 
   const createGroup = () => {
-    console.log("clicked");
-    let newGroup = {
-      Title: "test",
-      Admin: [{ sender }],
-      Messages: [{ message: "user added you" }],
-    };
-    socket.emit("createGroup", newGroup);
+    setDisplay(!display);
+    // let newGroup = {
+    //   Title: "test",
+    //   Admin: [{ sender }],
+    //   Messages: [{ message: "user added you" }],
+    // };
+    // socket.emit("createGroup", newGroup);
   };
   const sideBarChat = () => {
     if (users) {
@@ -49,7 +51,6 @@ function Sidebar() {
       });
     }
   };
-
   return (
     <div className="sidebar">
       <div className="sidebar__header">
@@ -62,6 +63,16 @@ function Sidebar() {
             <ChatIcon />
           </IconButton>
           <IconButton onClick={createGroup}>
+            {display ? (
+              <GroupWindow>
+                {" "}
+                <MyElmenet onClick={(e) => console.log(e)}>
+                  Create group
+                </MyElmenet>{" "}
+                <MyElmenet>bla bla</MyElmenet>{" "}
+              </GroupWindow>
+            ) : null}
+
             <MoreVertIcon />
           </IconButton>
         </div>
@@ -79,3 +90,28 @@ function Sidebar() {
 }
 
 export default Sidebar;
+
+const GroupWindow = style.div`
+  min-width:10rem;
+  min-height :15rem;
+  background-color: #ededed;
+  position: absolute;
+  z-index:1;
+  top:2.5rem;
+  right:1rem;
+  padding: 9px 0;
+  background-color: #ffffff;
+  border-radius: 3px;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,.26),0 2px 10px 0 rgba(0,0,0,.16);
+  font-family:"Segoe UI", "Helvetica Neue", Helvetica, "Lucida Grande", Arial, Ubuntu, Cantarell, "Fira Sans", sans-serif;
+  font-size:14.5px;
+  color:#4a4a4a;
+  display:flex;
+  flex-flow:column wrap;
+  justify-content:flex-start;
+`;
+
+const MyElmenet = style.p`
+  display:flex;
+  margin-left:1rem; 
+`;
