@@ -4,36 +4,60 @@ import { Avatar, IconButton, styled } from "@material-ui/core";
 import ChatIcon from "@material-ui/icons/Chat";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import "../style/Sidebar.css";
-import { SearchOutlined } from "@material-ui/icons";
+import { ChangeHistory, SearchOutlined } from "@material-ui/icons";
 import SidebarChat from "./SidebarChat";
+
 import { useUsers } from "../contexts/UsersProvider";
 import { useSelect } from "../contexts/SelectProvider";
 import { useSocket } from "../contexts/SocketProvider";
+import { useChats } from "../contexts/ChatsProvider";
 import style from "styled-components";
 
 function Sidebar() {
   const [select, setSelect] = useSelect();
   const [users, setUsers] = useUsers();
   const [display, setDisplay] = useState(false);
+  const [chats, setChats] = useChats();
   const socket = useSocket();
 
   const sender = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
 
   const createGroup = () => {
     setDisplay(!display);
-    // let newGroup = {
-    //   Title: "test",
-    //   Admin: [{ sender }],
-    //   Messages: [{ message: "user added you" }],
-    // };
-    // socket.emit("createGroup", newGroup);
+    let newGroup = {
+      Title: "test",
+      Admins: [{ sender }],
+      Members: ["gilad@"],
+      Messages: [{ message: "user added you" }],
+    };
+    console.log(newGroup);
+    socket.emit("createGroup", newGroup);
   };
   const sideBarChat = () => {
-    if (users) {
-      return users.map((user, index) => {
+    if (chats) {
+      return chats.map((chat, index) => {
         if (
-          user.UserName !==
-          JSON.parse(sessionStorage.getItem("userInfo")).UserName
+          chat.UserA !== JSON.parse(sessionStorage.getItem("userInfo")).UserName
+        ) {
+          console.log(chat.UserA);
+          return (
+            <button
+              key={index}
+              className="btn"
+              onClick={() => {
+                setSelect(index);
+              }}
+            >
+              {" "}
+              <SidebarChat
+                key={index}
+                username={chat.UserA}
+                lastMessage={chat.Chat[chat.Chat.length - 1].Messgae}
+              />
+            </button>
+          );
+        } else if (
+          chat.UserB !== JSON.parse(sessionStorage.getItem("userInfo")).UserName
         ) {
           return (
             <button
@@ -44,7 +68,11 @@ function Sidebar() {
               }}
             >
               {" "}
-              <SidebarChat key={index} user={user} />
+              <SidebarChat
+                key={index}
+                username={chat.UserB}
+                lastMessage={chat.Chat[chat.Chat.length - 1].Messgae}
+              />
             </button>
           );
         }

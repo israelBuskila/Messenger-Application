@@ -16,33 +16,30 @@ const Chat = () => {
   const [users, setUsers] = useUsers();
   const [select] = useSelect();
   const [chats, setChats] = useChats([]);
-  const [index, setIndex] = useState();
+  const [addresse, setAddresse] = useState();
 
   const sender = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
 
   useEffect(() => {
     console.log(chats);
-    chats.forEach((x, i) => {
-      if (
-        (x.UserA === users[select].UserName ||
-          x.UserB === users[select].UserName) &&
-        (x.UserA === sender || x.UserB === sender)
-      ) {
-        setIndex(i);
+    if (chats.length > 0 && select !== undefined) {
+      if (chats[select].UserA != sender) setAddresse(chats[select].UserA);
+      else if (chats[select].UserB != sender) {
+        setAddresse(chats[select].UserB);
       }
-    });
+    }
   }, [select]);
 
   const username = () => {
-    if (users.length > 0 && select !== undefined) {
-      return <h3>{users[select].UserName}</h3>;
+    if (addresse) {
+      return <h3>{addresse}</h3>;
     }
   };
 
   const showChat = () => {
     let chatName;
-    if (chats && index !== undefined) {
-      return chats[index].Chat.map((message, i) => {
+    if (chats.length > 0 && select !== undefined) {
+      return chats[select].Chat.map((message, i) => {
         if (message.Sender === sender) {
           chatName = "chat__message chat__reciver";
         } else chatName = "chat__message";
@@ -71,10 +68,11 @@ const Chat = () => {
       t.getHours() +
       ":" +
       t.getMinutes();
+
     let newMessage = {
       Sender: sender,
       Message: input,
-      Addressee: users[select].UserName,
+      Addressee: addresse,
       TimeStamp: time,
     };
 
@@ -82,13 +80,10 @@ const Chat = () => {
 
     let arr = [...chats];
 
-    arr[index].Chat.push(newMessage);
+    arr[select].Chat.push(newMessage);
 
     setChats(arr);
     setInput("");
-
-  
-    
   };
 
   return (

@@ -4,13 +4,13 @@ import { Box, Box2, H2 } from "../style/SidebarChatStyle";
 import React from "react";
 import style from "styled-components";
 
-function SidebarChat({ user }) {
+const SidebarChat = ({ username , lastMessage }) =>{
   return (
     <Box>
       <Avatar />
       <Box2>
-        <H2>{user.UserName}</H2>
-        <p>{user.LastMessage}</p>
+        <H2>{username}</H2>
+        <p>{lastMessage}</p>
       </Box2>
     </Box>
   );

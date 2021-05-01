@@ -41,6 +41,7 @@ exports.addGroup = function (obj) {
     const p = new Groups({
       Title: obj.Title,
       Admins: obj.Admins,
+      Members: obj.Members,
       Messages: obj.Messages,
     });
 
@@ -61,7 +62,8 @@ exports.updateGroup = function (id, obj) {
       {
         Title: obj.Title,
         Admins: obj.Admins,
-        Messages: bj.Messages,
+        Members: obj.Members,
+        Messages: obj.Messages,
       },
       function (err) {
         if (err) {

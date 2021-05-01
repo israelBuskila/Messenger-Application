@@ -48,10 +48,27 @@ exports.sockets = (socket) => {
     }
   });
 
-  socket.on("createGroup", async (newGroup, members) => {
+  //recive: newgroup, members
+  //newgroup = Admin(array of admins), title = name of the group, messages
+  //members = aray of users that members in this group
+  socket.on("createGroup", async (newGroup) => {
     console.log("clicked");
     let resp = await groupDAL.addGroup(newGroup);
     console.log(resp);
+    newGroup.Members.forEach(async (m) => {
+      let user = await usersLoginDAL.getUserByUserName(m);
+      console.log(user);
+      if (user.length > 0) {
+        let obj = {
+          FirstName: user[0].FirstName,
+          LastName: user[0].LastName,
+          UserName: user[0].UserName,
+          Password: user[0].Password,
+          Groups: [...user[0].Groups, { Id: resp._id, Title: resp.Title }],
+        };
+        await usersLoginDAL.updateUserLogin(user[0]._id, obj);
+      }
+    });
   });
 
   //remove user fron onlineUsers when user disconnect
