@@ -45,18 +45,33 @@ function Main() {
     if (socket == null) {
       return;
     }
+    socket.on("groupMessage", (newMessage) => {
+      chats.forEach((c, i) => {
+        if (c._id === newMessage.ID) {
+          let temp = [...chats];
+          temp[i].Chat.push(newMessage);
+
+          setChats(temp);
+        }
+      });
+    });
+
+    return () => {
+      socket.off("groupMessage");
+    };
+  }, [socket, chats]);
+
+  useEffect(() => {
+    if (socket == null) {
+      return;
+    }
 
     socket.on("private", (newMessage) => {
-      console.log("true");
-      console.log(newMessage);
-      console.log(username);
-
       chats.forEach((x, t) => {
         if (
           (x.UserA === newMessage.Sender && x.UserB === username) ||
           (x.UserA === username && x.UserB === newMessage.Sender)
         ) {
-          console.log("true");
           let arr = [...chats];
           arr[t].Chat.push(newMessage);
 
@@ -64,6 +79,7 @@ function Main() {
         }
       });
     });
+
     return () => {
       socket.off("private");
     };

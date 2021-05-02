@@ -21,17 +21,26 @@ const Chat = () => {
   const sender = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
 
   useEffect(() => {
-    console.log(chats);
     if (chats.length > 0 && select !== undefined) {
-      if (chats[select].UserA != sender) setAddresse(chats[select].UserA);
-      else if (chats[select].UserB != sender) {
+      if (
+        chats[select].Type === "private messages" &&
+        chats[select].UserA != sender
+      )
+        setAddresse(chats[select].UserA);
+      else if (
+        chats[select].Type === "private messages" &&
+        chats[select].UserB != sender
+      ) {
         setAddresse(chats[select].UserB);
+      } else if (chats[select].Type === "group") {
+        setAddresse(chats[select].Title);
       }
     }
   }, [select]);
 
   const username = () => {
     if (addresse) {
+      console.log(addresse);
       return <h3>{addresse}</h3>;
     }
   };
@@ -69,19 +78,28 @@ const Chat = () => {
       ":" +
       t.getMinutes();
 
-    let newMessage = {
-      Sender: sender,
-      Message: input,
-      Addressee: addresse,
-      TimeStamp: time,
-    };
-
-    socket.emit("private", newMessage);
-
     let arr = [...chats];
-
-    arr[select].Chat.push(newMessage);
-
+    if (chats[select].Type === "private messages") {
+      let newMessage = {
+        Sender: sender,
+        Message: input,
+        Addressee: addresse,
+        TimeStamp: time,
+      };
+      arr[select].Chat.push(newMessage);
+      socket.emit("private", newMessage);
+    } else if (chats[select].Type === "group") {
+      let newMessage = {
+        Sender: sender,
+        Message: input,
+        Addressee: addresse,
+        TimeStamp: time,
+        ID: chats[select]._id,
+      };
+      console.log(newMessage)
+      arr[select].Chat.push(newMessage);
+      socket.emit("groupMessage", newMessage);
+    }
     setChats(arr);
     setInput("");
   };

@@ -1,5 +1,6 @@
 const conversationsDAL = require("../DAL/conversationsDAL");
 const usersLoginDAL = require("../DAL/usersLoginDAL");
+const groupsDAL = require("../DAL/groupsDAL");
 
 exports.initforNewUser = async (username) => {
   let users = await usersLoginDAL.getAllUsersLogin();
@@ -26,7 +27,18 @@ exports.initforNewUser = async (username) => {
           TimeStamp: time,
         },
       ],
+      Type: "private messages",
     };
     await conversationsDAL.addConversation(obj);
   });
+};
+
+exports.getAllChats = async (userName) => {
+  // let chats = await conversationsDAL.getConversationsByUserName(userName);
+  let m = [];
+  let user = await usersLoginDAL.getUserByUserName(userName);
+  user[0].Groups.map((x) => {
+    return groupsDAL.getGroupById(x.Id).then((g) => m.push(g));
+  });
+  return m;
 };

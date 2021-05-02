@@ -42,7 +42,8 @@ exports.addGroup = function (obj) {
       Title: obj.Title,
       Admins: obj.Admins,
       Members: obj.Members,
-      Messages: obj.Messages,
+      Chat: obj.Chat,
+      Type: obj.Type,
     });
 
     p.save(function (err, data) {
@@ -63,7 +64,8 @@ exports.updateGroup = function (id, obj) {
         Title: obj.Title,
         Admins: obj.Admins,
         Members: obj.Members,
-        Messages: obj.Messages,
+        Chat: obj.Chat,
+        Type: obj.Type,
       },
       function (err) {
         if (err) {

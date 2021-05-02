@@ -67,6 +67,7 @@ exports.addConversation = function (obj) {
       UserA: obj.UserA,
       UserB: obj.UserB,
       Chat: obj.Chat,
+      Type: obj.Type,
     });
 
     p.save(function (err, data) {
@@ -87,6 +88,7 @@ exports.updateConversation = function (id, obj) {
         UserA: obj.UserA,
         UserB: obj.UserB,
         Chat: obj.Chat,
+        Type: obj.Type,
       },
       function (err) {
         if (err) {

@@ -37,12 +37,14 @@ exports.sockets = (socket) => {
         UserA: search[0].UserA,
         UserB: search[0].UserB,
         Chat: arr,
+        Type: search[0].Type,
       });
     } else {
       let obj = {
         UserA: newMessage.Sender,
         UserB: newMessage.Addressee,
         Chat: [newMessage],
+        Type: newMessage.Type,
       };
       await conversationDAL.addConversation(obj);
     }
@@ -65,10 +67,34 @@ exports.sockets = (socket) => {
           UserName: user[0].UserName,
           Password: user[0].Password,
           Groups: [...user[0].Groups, { Id: resp._id, Title: resp.Title }],
+          Type: "group",
         };
         await usersLoginDAL.updateUserLogin(user[0]._id, obj);
       }
     });
+  });
+
+  socket.on("groupMessage", async (newMessage) => {
+    console.log(newMessage);
+    let group = await groupDAL.getGroupById(newMessage.ID);
+    console.log(group);
+    onlineUsers.forEach((user) => {
+      group.Members.forEach((member) => {
+        if (member === user.UserName) {
+          socket.to(user.SocketId).emit("groupMessage", newMessage);
+        }
+      });
+    });
+    let temp = group.Chat;
+    temp.push(newMessage);
+    let obj = {
+      Title: group.Title,
+      Admins: group.Admins,
+      Members: group.Members,
+      Chat: temp,
+      Type: group.Type,
+    };
+    await groupDAL.updateGroup(newMessage.ID, obj);
   });
 
   //remove user fron onlineUsers when user disconnect

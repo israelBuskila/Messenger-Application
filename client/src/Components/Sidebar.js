@@ -4,7 +4,7 @@ import { Avatar, IconButton, styled } from "@material-ui/core";
 import ChatIcon from "@material-ui/icons/Chat";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import "../style/Sidebar.css";
-import { ChangeHistory, SearchOutlined } from "@material-ui/icons";
+import { ChangeHistory, ChatTwoTone, SearchOutlined } from "@material-ui/icons";
 import SidebarChat from "./SidebarChat";
 
 import { useUsers } from "../contexts/UsersProvider";
@@ -27,8 +27,9 @@ function Sidebar() {
     let newGroup = {
       Title: "test",
       Admins: [{ sender }],
-      Members: ["gilad@"],
-      Messages: [{ message: "user added you" }],
+      Members: ["einav@", sender],
+      Chat: [{ Message: sender + " added you" }],
+      Type: "group",
     };
     console.log(newGroup);
     socket.emit("createGroup", newGroup);
@@ -37,9 +38,9 @@ function Sidebar() {
     if (chats) {
       return chats.map((chat, index) => {
         if (
+          chat.Type === "private messages" &&
           chat.UserA !== JSON.parse(sessionStorage.getItem("userInfo")).UserName
         ) {
-          console.log(chat.UserA);
           return (
             <button
               key={index}
@@ -52,11 +53,12 @@ function Sidebar() {
               <SidebarChat
                 key={index}
                 username={chat.UserA}
-                lastMessage={chat.Chat[chat.Chat.length - 1].Messgae}
+                lastMessage={chat.Chat[0].Messgae}
               />
             </button>
           );
         } else if (
+          chat.Type === "private messages" &&
           chat.UserB !== JSON.parse(sessionStorage.getItem("userInfo")).UserName
         ) {
           return (
@@ -71,8 +73,22 @@ function Sidebar() {
               <SidebarChat
                 key={index}
                 username={chat.UserB}
-                lastMessage={chat.Chat[chat.Chat.length - 1].Messgae}
+                lastMessage={chat.Chat[0].Messgae}
               />
+            </button>
+          );
+        } else if (chat.Type === "group") {
+          console.log(chat);
+          return (
+            <button
+              key={index}
+              className="btn"
+              onClick={() => {
+                setSelect(index);
+              }}
+            >
+              {" "}
+              <SidebarChat key={index} username={chat.Title} />
             </button>
           );
         }

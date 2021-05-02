@@ -6,6 +6,7 @@ let ConversationsSchema = new Schema({
   UserA: String,
   UserB: String,
   Chat: Array,
+  Type: String,
 });
 
 module.exports = mongoose.model("Conversations", ConversationsSchema);

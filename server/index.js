@@ -38,15 +38,6 @@ app.use(bodyParser.urlencoded({ extended: true })).use(bodyParser.json());
 app.use("/", usersLoginRoutes);
 app.use("/chats", chatsRoutes);
 
-// app.use(function (request, response, next) {
-//   response.header("Access-Control-Allow-Origin", "*");
-//   response.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
-// });
-
 io.on("connection", (socket) => {
   // if (session.user == undefined)
   //   session.user = { SocketId: socket.id, UserName: "" };
