@@ -40,7 +40,6 @@ const Chat = () => {
 
   const username = () => {
     if (addresse) {
-      console.log(addresse);
       return <h3>{addresse}</h3>;
     }
   };
@@ -96,7 +95,7 @@ const Chat = () => {
         TimeStamp: time,
         ID: chats[select]._id,
       };
-      console.log(newMessage)
+
       arr[select].Chat.push(newMessage);
       socket.emit("groupMessage", newMessage);
     }

@@ -13,7 +13,7 @@ import { useSocket } from "../contexts/SocketProvider";
 import { useChats } from "../contexts/ChatsProvider";
 import style from "styled-components";
 
-function Sidebar() {
+function Sidebar(props) {
   const [select, setSelect] = useSelect();
   const [users, setUsers] = useUsers();
   const [display, setDisplay] = useState(false);
@@ -23,16 +23,8 @@ function Sidebar() {
   const sender = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
 
   const createGroup = () => {
-    setDisplay(!display);
-    let newGroup = {
-      Title: "test",
-      Admins: [{ sender }],
-      Members: ["einav@", sender],
-      Chat: [{ Message: sender + " added you" }],
-      Type: "group",
-    };
-    console.log(newGroup);
-    socket.emit("createGroup", newGroup);
+    props.callback();
+  
   };
   const sideBarChat = () => {
     if (chats) {
@@ -106,13 +98,11 @@ function Sidebar() {
           <IconButton>
             <ChatIcon />
           </IconButton>
-          <IconButton onClick={createGroup}>
+          <IconButton onClick={() => setDisplay(!display)}>
             {display ? (
               <GroupWindow>
                 {" "}
-                <MyElmenet onClick={(e) => console.log(e)}>
-                  Create group
-                </MyElmenet>{" "}
+                <MyElmenet onClick={createGroup}>Create group</MyElmenet>{" "}
                 <MyElmenet>bla bla</MyElmenet>{" "}
               </GroupWindow>
             ) : null}

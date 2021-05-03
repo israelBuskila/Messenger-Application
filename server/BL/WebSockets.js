@@ -75,9 +75,9 @@ exports.sockets = (socket) => {
   });
 
   socket.on("groupMessage", async (newMessage) => {
-    console.log(newMessage);
+
     let group = await groupDAL.getGroupById(newMessage.ID);
-    console.log(group);
+    
     onlineUsers.forEach((user) => {
       group.Members.forEach((member) => {
         if (member === user.UserName) {

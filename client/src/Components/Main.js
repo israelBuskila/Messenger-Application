@@ -1,6 +1,7 @@
 import "../style/Main.css";
 import Chat from "./Chat";
 import Sidebar from "./Sidebar";
+import CreateGroup from "./CreateGroup";
 import { useSocket } from "../contexts/SocketProvider";
 import { useChats } from "../contexts/ChatsProvider";
 import { useSelect } from "../contexts/SelectProvider";
@@ -15,6 +16,7 @@ function Main() {
   const [select] = useSelect();
   const [users, setUsers] = useUsers();
   const [chat, setChat] = useState();
+  const [sideBar, setSideBar] = useState("chat");
 
   const username = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
   useEffect(() => {
@@ -29,7 +31,6 @@ function Main() {
     axios
       .post("http://localhost:3001/chats", { UserName: username })
       .then((resp) => {
-        console.log(resp.data);
         setChats(resp.data);
       });
   }, []);
@@ -88,7 +89,10 @@ function Main() {
   return (
     <div className="app">
       <div className="app__body">
-        <Sidebar />
+        {sideBar === "chat" && (
+          <Sidebar callback={() => setSideBar("createGroup")} />
+        )}
+        {sideBar === "createGroup" && <CreateGroup callback={()=>setSideBar("chat")}/>}
         <Chat />
       </div>
     </div>

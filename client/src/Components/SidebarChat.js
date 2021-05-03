@@ -2,7 +2,7 @@
 import { Avatar } from "@material-ui/core";
 import { Box, Box2, H2 } from "../style/SidebarChatStyle";
 import React from "react";
-import style from "styled-components";
+
 
 const SidebarChat = ({ username , lastMessage }) =>{
   return (
