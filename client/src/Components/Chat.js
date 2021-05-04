@@ -5,6 +5,7 @@ import MicIcon from "@material-ui/icons/Mic";
 import React, { useState, useEffect } from "react";
 
 import "../style/Chat.css";
+import style from "styled-components";
 import { useSocket } from "../contexts/SocketProvider";
 import { useUsers } from "../contexts/UsersProvider";
 import { useSelect } from "../contexts/SelectProvider";
@@ -17,6 +18,7 @@ const Chat = () => {
   const [select] = useSelect();
   const [chats, setChats] = useChats([]);
   const [addresse, setAddresse] = useState();
+  const [display, setDisplay] = useState(false);
 
   const sender = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
 
@@ -103,6 +105,22 @@ const Chat = () => {
     setInput("");
   };
 
+  //This function is activated after pressing the blocked / unblocked button and blocks the user.
+  const blockUser = () => {};
+
+  //This function is activated after clicking the Group Exit button and removes the user's subscription from this group
+  const exitGroup = () => {};
+
+  //This function checks whether it is a group chat or a private chat
+  //and displays the appropriate wording for options
+  const option = () => {
+    if (chats[select].Type === "private messages") {
+      return <MyElmenet onClick={blockUser()}>block/unblock</MyElmenet>;
+    } else if (chats[select].Type === "group") {
+      return <MyElmenet onClick={exitGroup()}>Exit group</MyElmenet>;
+    }
+  };
+
   return (
     <div className="chat">
       <div className="chat__header">
@@ -120,7 +138,17 @@ const Chat = () => {
           <IconButton>
             <AttachFile />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => setDisplay(!display)}>
+            {display ? (
+              <Options>
+                {" "}
+                {option()}
+                <MyElmenet>Contact Info</MyElmenet>{" "}
+                <MyElmenet>Mute notification</MyElmenet>{" "}
+                <MyElmenet>Clear messages</MyElmenet>{" "}
+                <MyElmenet>Delete chate</MyElmenet>{" "}
+              </Options>
+            ) : null}
             <MoreVert />
           </IconButton>
         </div>
@@ -147,3 +175,28 @@ const Chat = () => {
 };
 
 export default Chat;
+
+const Options = style.div`
+  min-width:10rem;
+  min-height :15rem;
+  background-color: #ededed;
+  position: absolute;
+  z-index:1;
+  top:2.5rem;
+  right:1rem;
+  padding: 9px 0;
+  background-color: #ffffff;
+  border-radius: 3px;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,.26),0 2px 10px 0 rgba(0,0,0,.16);
+  font-family:"Segoe UI", "Helvetica Neue", Helvetica, "Lucida Grande", Arial, Ubuntu, Cantarell, "Fira Sans", sans-serif;
+  font-size:14.5px;
+  color:#4a4a4a;
+  display:flex;
+  flex-flow:column wrap;
+  justify-content:flex-start;
+`;
+
+const MyElmenet = style.p`
+  display:flex;
+  margin-left:1rem; 
+`;

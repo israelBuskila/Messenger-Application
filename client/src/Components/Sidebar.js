@@ -24,7 +24,6 @@ function Sidebar(props) {
 
   const createGroup = () => {
     props.callback();
-  
   };
   const sideBarChat = () => {
     if (chats) {
@@ -45,7 +44,7 @@ function Sidebar(props) {
               <SidebarChat
                 key={index}
                 username={chat.UserA}
-                lastMessage={chat.Chat[0].Messgae}
+                lastMessage={chat.Chat[0].Message}
               />
             </button>
           );
@@ -65,7 +64,7 @@ function Sidebar(props) {
               <SidebarChat
                 key={index}
                 username={chat.UserB}
-                lastMessage={chat.Chat[0].Messgae}
+                lastMessage={chat.Chat[0].Message}
               />
             </button>
           );
@@ -103,7 +102,9 @@ function Sidebar(props) {
               <GroupWindow>
                 {" "}
                 <MyElmenet onClick={createGroup}>Create group</MyElmenet>{" "}
-                <MyElmenet>bla bla</MyElmenet>{" "}
+                <MyElmenet>Profile</MyElmenet> <MyElmenet>Archived</MyElmenet>{" "}
+                <MyElmenet>Starred</MyElmenet> <MyElmenet>Settings</MyElmenet>{" "}
+                <MyElmenet>Log out</MyElmenet>{" "}
               </GroupWindow>
             ) : null}
 
