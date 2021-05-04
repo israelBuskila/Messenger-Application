@@ -69,7 +69,6 @@ function Sidebar(props) {
             </button>
           );
         } else if (chat.Type === "group") {
-          console.log(chat);
           return (
             <button
               key={index}

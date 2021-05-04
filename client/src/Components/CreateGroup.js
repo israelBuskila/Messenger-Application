@@ -7,19 +7,21 @@ import Button from "@material-ui/core/Button";
 import { useChats } from "../contexts/ChatsProvider";
 import { useSelect } from "../contexts/SelectProvider";
 import { useSocket } from "../contexts/SocketProvider";
+import { useUsers } from "../contexts/UsersProvider";
 
 import CreateGroupUsers from "./CreateGroupUsers";
 
 function CreateGroup(props) {
-    const sender = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
+  const sender = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
 
   const [chats, setChats] = useChats();
   const [select, setSelect] = useSelect();
   const [members, setMembers] = useState([sender]);
   const [title, setTitle] = useState("");
+  const [users, setUsers] = useUsers();
+
   const socket = useSocket();
 
- 
   const storeMembers = (e) => {
     console.log(e.currentTarget.value);
     setMembers([...members, e.currentTarget.value]);
@@ -45,8 +47,11 @@ function CreateGroup(props) {
       Type: "group",
     };
     console.log(newGroup);
+    setChats([...chats, newGroup]);
+
     socket.emit("createGroup", newGroup);
-    props.callback()
+    
+    props.callback();
   };
 
   const createGroupUsers = () => {

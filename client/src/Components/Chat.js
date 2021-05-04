@@ -109,15 +109,27 @@ const Chat = () => {
   const blockUser = () => {};
 
   //This function is activated after clicking the Group Exit button and removes the user's subscription from this group
-  const exitGroup = () => {};
+  const exitGroup = (e) => {
+    let temp = [...chats];
+    temp[select].Members = temp[select].Members.filter((m) => m !== sender);
+    temp[select].Admins = temp[select].Admins.filter((a) => a !== sender);
+    setChats(temp);
+
+    let groupInfo = {
+      UserName: sender,
+      ID: chats[select]._id,
+    };
+    console.log(groupInfo);
+    socket.emit("exitGroup", groupInfo);
+  };
 
   //This function checks whether it is a group chat or a private chat
   //and displays the appropriate wording for options
   const option = () => {
     if (chats[select].Type === "private messages") {
-      return <MyElmenet onClick={blockUser()}>block/unblock</MyElmenet>;
+      return <MyElmenet onClick={(e) => blockUser()}>block/unblock</MyElmenet>;
     } else if (chats[select].Type === "group") {
-      return <MyElmenet onClick={exitGroup()}>Exit group</MyElmenet>;
+      return <MyElmenet onClick={(e) => exitGroup(e)}>Exit group</MyElmenet>;
     }
   };
 

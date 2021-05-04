@@ -75,9 +75,8 @@ exports.sockets = (socket) => {
   });
 
   socket.on("groupMessage", async (newMessage) => {
-
     let group = await groupDAL.getGroupById(newMessage.ID);
-    
+
     onlineUsers.forEach((user) => {
       group.Members.forEach((member) => {
         if (member === user.UserName) {
@@ -95,6 +94,40 @@ exports.sockets = (socket) => {
       Type: group.Type,
     };
     await groupDAL.updateGroup(newMessage.ID, obj);
+  });
+
+  socket.on("exitGroup", async (exitGroup) => {
+    console.log(exitGroup);
+    let user = await usersLoginDAL.getUserByUserName(exitGroup.UserName);
+    if (user[0]) {
+      let groups = user[0].Groups.filter((g) => g.Id != exitGroup.ID);
+
+      let updateUser = {
+        FirstName: user[0].FirstName,
+        LastName: user[0].LastName,
+        UserName: user[0].UserName,
+        Password: user[0].Password,
+        Groups: groups,
+      };
+      await usersLoginDAL.updateUserLogin(user[0]._id, updateUser);
+    }
+    let group = await groupDAL.getGroupById(exitGroup.ID);
+    console.log(group);
+
+    let members = group.Members.filter((m) => m != exitGroup.UserName);
+    let admins = group.Admins.filter((a) => a != exitGroup.UserName);
+    if (admins.length == 0 && members.length > 0) {
+      admins.push(members[0]);
+    }
+    console.log(members);
+    let updateGroup = {
+      Title: group.Title,
+      Admins: admins,
+      Members: members,
+      Chat: group.Chat,
+      Type: group.Type,
+    };
+    await groupDAL.updateGroup(exitGroup.ID, updateGroup);
   });
 
   //remove user fron onlineUsers when user disconnect

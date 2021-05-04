@@ -21,9 +21,9 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-router.get("/users", async (req, res, next) => {
+router.post("/getUser", async (req, res, next) => {
   try {
-    res.send(await usersLoginDAL.getAllUsersLogin());
+    res.send(await usersLoginDAL.getUserByUserName(req.body.UserName));
   } catch (err) {
     console.error(err);
     res.json({ error: err });

@@ -22,9 +22,12 @@ function Main() {
   useEffect(() => {
     //get users
     if (users.length === 0)
-      axios.get("http://localhost:3001/users").then((resp) => {
-        setUsers(resp.data);
-      });
+      axios
+        .post("http://localhost:3001/getUser", { UserName: username })
+        .then((resp) => {
+          console.log(resp);
+          setUsers(resp.data[0]);
+        });
   }, [users]);
 
   useEffect(() => {
@@ -92,7 +95,9 @@ function Main() {
         {sideBar === "chat" && (
           <Sidebar callback={() => setSideBar("createGroup")} />
         )}
-        {sideBar === "createGroup" && <CreateGroup callback={()=>setSideBar("chat")}/>}
+        {sideBar === "createGroup" && (
+          <CreateGroup callback={() => setSideBar("chat")} />
+        )}
         <Chat />
       </div>
     </div>
