@@ -19,26 +19,34 @@ exports.sockets = (socket) => {
 
   // to individual socketid (private message)
   socket.on("private", async (newMessage) => {
-    let user = onlineUsers.filter((x) => x.UserName == newMessage.Addressee);
-    if (user[0]) {
-      socket.to(user[0].SocketId).emit("private", newMessage);
-    }
-
     let search = await conversationDAL.getConversationByUsersName(
       newMessage.Sender,
       newMessage.Addressee
     );
 
     if (search.length > 0) {
-      let id = search[0]._id;
-      let arr = search[0].Chat;
-      arr.push(newMessage);
-      await conversationDAL.updateConversation(id, {
-        UserA: search[0].UserA,
-        UserB: search[0].UserB,
-        Chat: arr,
-        Type: search[0].Type,
-      });
+      console.log(search[0].Chat.slice(-1)[0]);
+      if (
+        search[0].Chat.slice(-1)[0].Message !=
+        "Now you can not chat with each other due to user blocking"
+      ) {
+        console.log("blocked");
+        let user = onlineUsers.filter(
+          (x) => x.UserName == newMessage.Addressee
+        );
+        if (user[0]) {
+          socket.to(user[0].SocketId).emit("private", newMessage);
+        }
+        let id = search[0]._id;
+        let arr = search[0].Chat;
+        arr.push(newMessage);
+        await conversationDAL.updateConversation(id, {
+          UserA: search[0].UserA,
+          UserB: search[0].UserB,
+          Chat: arr,
+          Type: search[0].Type,
+        });
+      }
     } else {
       let obj = {
         UserA: newMessage.Sender,
@@ -67,7 +75,6 @@ exports.sockets = (socket) => {
           UserName: user[0].UserName,
           Password: user[0].Password,
           Groups: [...user[0].Groups, { Id: resp._id, Title: resp.Title }],
-          Type: "group",
         };
         await usersLoginDAL.updateUserLogin(user[0]._id, obj);
       }
@@ -94,6 +101,38 @@ exports.sockets = (socket) => {
       Type: group.Type,
     };
     await groupDAL.updateGroup(newMessage.ID, obj);
+  });
+
+  //"Now you can not chat with each other due to user blocking"
+  socket.on("blockUser", async (blockInfo) => {
+    let search = await conversationDAL.getConversationByUsersName(
+      blockInfo.Sender,
+      blockInfo.Addressee
+    );
+
+    if (search.length > 0) {
+      let id = search[0]._id;
+      let arr = search[0].Chat;
+      arr.push(blockInfo);
+      await conversationDAL.updateConversation(id, {
+        UserA: search[0].UserA,
+        UserB: search[0].UserB,
+        Chat: arr,
+        Type: search[0].Type,
+      });
+    }
+
+    // let user = await usersLoginDAL.getUserByUserName(blockInfo.UserName);
+    // console.log(user);
+    // let updateUser = {
+    //   FirstName: user[0].FirstName,
+    //   LastName: user[0].LastName,
+    //   UserName: user[0].UserName,
+    //   Password: user[0].Password,
+    //   Groups: user[0].Groups,
+    //   Blocked: [...user[0].Blocked, blockInfo.BlockedUserName],
+    // };
+    // await usersLoginDAL.updateUserLogin(user[0]._id, updateUser);
   });
 
   socket.on("exitGroup", async (exitGroup) => {

@@ -44,7 +44,7 @@ function Sidebar(props) {
               <SidebarChat
                 key={index}
                 username={chat.UserA}
-                lastMessage={chat.Chat[0].Message}
+                lastMessage={chat.Chat.slice(-1)[0].Message}
               />
             </button>
           );
@@ -64,7 +64,7 @@ function Sidebar(props) {
               <SidebarChat
                 key={index}
                 username={chat.UserB}
-                lastMessage={chat.Chat[0].Message}
+                lastMessage={chat.Chat.slice(-1)[0].Message}
               />
             </button>
           );
@@ -78,7 +78,11 @@ function Sidebar(props) {
               }}
             >
               {" "}
-              <SidebarChat key={index} username={chat.Title} />
+              <SidebarChat
+                key={index}
+                username={chat.Title}
+                lastMessage={chat.Chat.slice(-1)[0].Message}
+              />
             </button>
           );
         }

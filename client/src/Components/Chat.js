@@ -15,9 +15,9 @@ const Chat = () => {
   const socket = useSocket();
   const [input, setInput] = useState("");
   const [users, setUsers] = useUsers();
-  const [select] = useSelect();
+  const [select, setSelect] = useSelect();
   const [chats, setChats] = useChats([]);
-  const [addresse, setAddresse] = useState();
+  const [addressee, setAddressee] = useState();
   const [display, setDisplay] = useState(false);
 
   const sender = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
@@ -28,21 +28,21 @@ const Chat = () => {
         chats[select].Type === "private messages" &&
         chats[select].UserA != sender
       )
-        setAddresse(chats[select].UserA);
+        setAddressee(chats[select].UserA);
       else if (
         chats[select].Type === "private messages" &&
         chats[select].UserB != sender
       ) {
-        setAddresse(chats[select].UserB);
+        setAddressee(chats[select].UserB);
       } else if (chats[select].Type === "group") {
-        setAddresse(chats[select].Title);
+        setAddressee(chats[select].Title);
       }
     }
   }, [select]);
 
   const username = () => {
-    if (addresse) {
-      return <h3>{addresse}</h3>;
+    if (addressee) {
+      return <h3>{addressee}</h3>;
     }
   };
 
@@ -84,16 +84,27 @@ const Chat = () => {
       let newMessage = {
         Sender: sender,
         Message: input,
-        Addressee: addresse,
+        Addressee: addressee,
         TimeStamp: time,
       };
-      arr[select].Chat.push(newMessage);
+      if (
+        chats[select].Chat.slice(-1)[0].Message !=
+        "Now you can not chat with each other due to user blocking"
+      ) {
+        let newMessage = {
+          Sender: sender,
+          Message: input,
+          Addressee: addressee,
+          TimeStamp: time,
+        };
+        arr[select].Chat.push(newMessage);
+      }
       socket.emit("private", newMessage);
     } else if (chats[select].Type === "group") {
       let newMessage = {
         Sender: sender,
         Message: input,
-        Addressee: addresse,
+        Addressee: addressee,
         TimeStamp: time,
         ID: chats[select]._id,
       };
@@ -106,13 +117,57 @@ const Chat = () => {
   };
 
   //This function is activated after pressing the blocked / unblocked button and blocks the user.
-  const blockUser = () => {};
+  const blockUser = () => {
+    var t = new Date();
+    var time =
+      t.getDate() +
+      "/" +
+      (t.getMonth() + 1) +
+      "/" +
+      t.getFullYear() +
+      "  " +
+      t.getHours() +
+      ":" +
+      t.getMinutes();
+    let arr = [...chats];
+    let blockUser = {
+      Sender: sender,
+      Message: "Now you can not chat with each other due to user blocking",
+      Addressee: addressee,
+      TimeStamp: time,
+    };
+    arr[select].Chat.push(blockUser);
+    socket.emit("private", blockUser);
+
+    socket.emit("blockUser", blockUser);
+  };
 
   //This function is activated after clicking the Group Exit button and removes the user's subscription from this group
   const exitGroup = (e) => {
+    var t = new Date();
+    var time =
+      t.getDate() +
+      "/" +
+      (t.getMonth() + 1) +
+      "/" +
+      t.getFullYear() +
+      "  " +
+      t.getHours() +
+      ":" +
+      t.getMinutes();
+    let newMessage = {
+      Sender: sender,
+      Message: sender + " has left the group",
+      Addressee: addressee,
+      TimeStamp: time,
+      ID: chats[select]._id,
+    };
+    socket.emit("groupMessage", newMessage);
     let temp = [...chats];
-    temp[select].Members = temp[select].Members.filter((m) => m !== sender);
-    temp[select].Admins = temp[select].Admins.filter((a) => a !== sender);
+    temp.splice(select, 1);
+    // temp[select].Members = temp[select].Members.filter((m) => m !== sender);
+    // temp[select].Admins = temp[select].Admins.filter((a) => a !== sender);
+    setSelect(0);
     setChats(temp);
 
     let groupInfo = {

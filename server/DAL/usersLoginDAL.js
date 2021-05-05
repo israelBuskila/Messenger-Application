@@ -44,6 +44,7 @@ exports.addUserLogin = function (obj) {
       UserName: obj.UserName,
       Password: obj.Password,
       Groups: obj.Groups,
+      Blocked: obj.Blocked,
     });
 
     p.save(function (err, data) {
@@ -66,6 +67,7 @@ exports.updateUserLogin = function (id, obj) {
         UserName: obj.UserName,
         Password: obj.Password,
         Groups: obj.Groups,
+        Blocked: obj.Blocked,
       },
       function (err) {
         if (err) {
