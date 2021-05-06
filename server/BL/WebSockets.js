@@ -25,12 +25,7 @@ exports.sockets = (socket) => {
     );
 
     if (search.length > 0) {
-      console.log(search[0].Chat.slice(-1)[0]);
-      if (
-        search[0].Chat.slice(-1)[0].Message !=
-        "Now you can not chat with each other due to user blocking"
-      ) {
-        console.log("blocked");
+      if (search[0].BlockedBy.length == 0) {
         let user = onlineUsers.filter(
           (x) => x.UserName == newMessage.Addressee
         );
@@ -45,14 +40,24 @@ exports.sockets = (socket) => {
           UserB: search[0].UserB,
           Chat: arr,
           Type: search[0].Type,
+          BlockedBy: search[0].BlockedBy,
         });
       }
+      // else if (search[0].BlockedBy.length > 0) {
+      //   let user = onlineUsers.filter((x) => x.UserName == newMessage.Sender);
+      //   if (user[0]) {
+      //     socket.to(user[0].SocketId).emit("private", {
+      //       Message: "The message was not sent because this chat is blocked",
+      //     });
+      //   }
+      // }
     } else {
       let obj = {
         UserA: newMessage.Sender,
         UserB: newMessage.Addressee,
         Chat: [newMessage],
         Type: newMessage.Type,
+        BlockedBy: search[0].BlockedBy,
       };
       await conversationDAL.addConversation(obj);
     }
@@ -62,7 +67,6 @@ exports.sockets = (socket) => {
   //newgroup = Admin(array of admins), title = name of the group, messages
   //members = aray of users that members in this group
   socket.on("createGroup", async (newGroup) => {
-    console.log("clicked");
     let resp = await groupDAL.addGroup(newGroup);
     console.log(resp);
     newGroup.Members.forEach(async (m) => {
@@ -103,7 +107,6 @@ exports.sockets = (socket) => {
     await groupDAL.updateGroup(newMessage.ID, obj);
   });
 
-  //"Now you can not chat with each other due to user blocking"
   socket.on("blockUser", async (blockInfo) => {
     let search = await conversationDAL.getConversationByUsersName(
       blockInfo.Sender,
@@ -111,28 +114,71 @@ exports.sockets = (socket) => {
     );
 
     if (search.length > 0) {
-      let id = search[0]._id;
       let arr = search[0].Chat;
-      arr.push(blockInfo);
-      await conversationDAL.updateConversation(id, {
+      let listBlocked = [...search[0].BlockedBy];
+      let found = listBlocked.find((x) => x == blockInfo.Sender);
+
+      if (found == blockInfo.Sender) {
+        listBlocked = search[0].BlockedBy.filter((u) => u != blockInfo.Sender);
+        onlineUsers.forEach((x) => {
+          if (x.UserName == blockInfo.Addressee) {
+            socket.to(x.SocketId).emit("private", {
+              Sender: blockInfo.Sender,
+              Message: blockInfo.Sender + " has unblocked this chat",
+              Addressee: blockInfo.Addressee,
+              TimeStamp: blockInfo.time,
+            });
+          } else if (x.UserName == blockInfo.Sender) {
+            console.log(x.SocketId);
+            socket.emit("private", {
+              Sender: blockInfo.Addressee,
+              Message: blockInfo.Sender + " has unblocked this chat",
+              Addressee: blockInfo.Sender,
+              TimeStamp: blockInfo.time,
+            });
+          }
+        });
+        arr.push({
+          Sender: blockInfo.Sender,
+          Message: blockInfo.Sender + " has unblocked this chat",
+          Addressee: blockInfo.Addressee,
+          TimeStamp: blockInfo.time,
+        });
+      } else if (found == undefined) {
+        listBlocked.push(blockInfo.Sender);
+        onlineUsers.forEach((x) => {
+          if (x.UserName == blockInfo.Addressee) {
+            socket.to(x.SocketId).emit("private", {
+              Sender: blockInfo.Sender,
+              Message: blockInfo.Sender + "  blocked this chat",
+              Addressee: blockInfo.Addressee,
+              TimeStamp: blockInfo.Addressee.time,
+            });
+          } else if (x.UserName == blockInfo.Sender) {
+            console.log(x.SocketId);
+            socket.emit("private", {
+              Sender: blockInfo.Addressee,
+              Message: blockInfo.Sender + "  blocked this chat",
+              Addressee: blockInfo.Sender,
+              TimeStamp: blockInfo.Addressee.time,
+            });
+          }
+        });
+        arr.push({
+          Sender: blockInfo.Sender,
+          Message: blockInfo.Sender + "  blocked this chat",
+          Addressee: blockInfo.Addressee,
+          TimeStamp: blockInfo.Addressee.time,
+        });
+      }
+      await conversationDAL.updateConversation(search[0]._id, {
         UserA: search[0].UserA,
         UserB: search[0].UserB,
         Chat: arr,
         Type: search[0].Type,
+        BlockedBy: listBlocked,
       });
     }
-
-    // let user = await usersLoginDAL.getUserByUserName(blockInfo.UserName);
-    // console.log(user);
-    // let updateUser = {
-    //   FirstName: user[0].FirstName,
-    //   LastName: user[0].LastName,
-    //   UserName: user[0].UserName,
-    //   Password: user[0].Password,
-    //   Groups: user[0].Groups,
-    //   Blocked: [...user[0].Blocked, blockInfo.BlockedUserName],
-    // };
-    // await usersLoginDAL.updateUserLogin(user[0]._id, updateUser);
   });
 
   socket.on("exitGroup", async (exitGroup) => {

@@ -87,18 +87,9 @@ const Chat = () => {
         Addressee: addressee,
         TimeStamp: time,
       };
-      if (
-        chats[select].Chat.slice(-1)[0].Message !=
-        "Now you can not chat with each other due to user blocking"
-      ) {
-        let newMessage = {
-          Sender: sender,
-          Message: input,
-          Addressee: addressee,
-          TimeStamp: time,
-        };
-        arr[select].Chat.push(newMessage);
-      }
+
+      arr[select].Chat.push(newMessage);
+
       socket.emit("private", newMessage);
     } else if (chats[select].Type === "group") {
       let newMessage = {
@@ -136,8 +127,8 @@ const Chat = () => {
       Addressee: addressee,
       TimeStamp: time,
     };
-    arr[select].Chat.push(blockUser);
-    socket.emit("private", blockUser);
+    // arr[select].Chat.push(blockUser);
+    // socket.emit("private", blockUser);
 
     socket.emit("blockUser", blockUser);
   };

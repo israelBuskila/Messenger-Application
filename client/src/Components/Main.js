@@ -25,7 +25,6 @@ function Main() {
       axios
         .post("http://localhost:3001/getUser", { UserName: username })
         .then((resp) => {
-          console.log(resp);
           setUsers(resp.data[0]);
         });
   }, [users]);
@@ -71,11 +70,13 @@ function Main() {
     }
 
     socket.on("private", (newMessage) => {
+      console.log(newMessage);
       chats.forEach((x, t) => {
         if (
           (x.UserA === newMessage.Sender && x.UserB === username) ||
           (x.UserA === username && x.UserB === newMessage.Sender)
         ) {
+          console.log(newMessage);
           let arr = [...chats];
           arr[t].Chat.push(newMessage);
 
