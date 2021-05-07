@@ -15,7 +15,7 @@ function Main() {
   const [chats, setChats] = useChats();
   const [select] = useSelect();
   const [users, setUsers] = useUsers();
-  const [chat, setChat] = useState();
+ 
   const [sideBar, setSideBar] = useState("chat");
 
   const username = JSON.parse(sessionStorage.getItem("userInfo")).UserName;

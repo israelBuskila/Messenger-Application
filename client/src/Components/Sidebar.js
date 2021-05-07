@@ -4,21 +4,19 @@ import { Avatar, IconButton, styled } from "@material-ui/core";
 import ChatIcon from "@material-ui/icons/Chat";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import "../style/Sidebar.css";
-import { ChangeHistory, ChatTwoTone, SearchOutlined } from "@material-ui/icons";
+import { SearchOutlined } from "@material-ui/icons";
 import SidebarChat from "./SidebarChat";
 
-import { useUsers } from "../contexts/UsersProvider";
 import { useSelect } from "../contexts/SelectProvider";
-import { useSocket } from "../contexts/SocketProvider";
+
 import { useChats } from "../contexts/ChatsProvider";
 import style from "styled-components";
 
 function Sidebar(props) {
   const [select, setSelect] = useSelect();
-  const [users, setUsers] = useUsers();
+
   const [display, setDisplay] = useState(false);
   const [chats, setChats] = useChats();
-  const socket = useSocket();
 
   const sender = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
 

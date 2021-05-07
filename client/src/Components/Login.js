@@ -32,18 +32,11 @@ function Login() {
     let response = await axios.post("http://localhost:3001/login", obj);
 
     if (response.data.a === true) {
-      // let resp = await axios.post(
-      //   "http://localhost:3001/users/getPermissions",
-      //   {
-      //     userName: userName,
-      //   }
-      // );
+
 
       let userInfo = {
         UserName: obj.UserName,
-        // FirstName: resp.data.FirstName,
-        // Login: true,
-        // Permissions: resp.data.Permissions,
+
       };
       sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
       return history.push("/main");

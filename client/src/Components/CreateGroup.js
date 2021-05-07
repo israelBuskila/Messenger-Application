@@ -1,13 +1,21 @@
 import React, { useState } from "react";
-import "../style/CreateGroup.css";
+
 import { SearchOutlined } from "@material-ui/icons";
 import TextField from "@material-ui/core/TextField";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import Button from "@material-ui/core/Button";
 import { useChats } from "../contexts/ChatsProvider";
-import { useSelect } from "../contexts/SelectProvider";
+
 import { useSocket } from "../contexts/SocketProvider";
-import { useUsers } from "../contexts/UsersProvider";
+
+import {
+  CreateGroupStyle,
+  Header,
+  Search,
+  SearchContainer,
+  ChatsStyle,
+  SearchContainer3,
+} from "../style/CreateGroupStyle";
 
 import CreateGroupUsers from "./CreateGroupUsers";
 
@@ -15,10 +23,8 @@ function CreateGroup(props) {
   const sender = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
 
   const [chats, setChats] = useChats();
-  const [select, setSelect] = useSelect();
   const [members, setMembers] = useState([sender]);
   const [title, setTitle] = useState("");
-  const [users, setUsers] = useUsers();
 
   const socket = useSocket();
 
@@ -50,7 +56,7 @@ function CreateGroup(props) {
     setChats([...chats, newGroup]);
 
     socket.emit("createGroup", newGroup);
-    
+
     props.callback();
   };
 
@@ -92,8 +98,8 @@ function CreateGroup(props) {
     }
   };
   return (
-    <div className="createGroup">
-      <div className="createGroup__header">
+    <CreateGroupStyle>
+      <Header>
         <TextField
           label={"Type group subject here..."}
           value={title}
@@ -106,16 +112,20 @@ function CreateGroup(props) {
         <Button variant="outlined" onClick={(e) => onSubmit(e)}>
           Create Group
         </Button>
-      </div>
+      </Header>
 
-      <div className="createGroup__search">
-        <div className="createGroup__searchContainer">
-          <SearchOutlined />
-          <input placeholder="type contact name" type="text" />
-        </div>
-      </div>
-      <div className="createGroup__chats">{createGroupUsers()}</div>
-    </div>
+      <Search>
+        <SearchContainer>
+          {/* <SearchContainer2> */}
+          <SearchContainer3 >
+            {/* <SearchOutlined /> */}
+            {/* <input placeholder="type contact name" type="text" /> */}
+          </SearchContainer3>
+          {/* </SearchContainer2> */}
+        </SearchContainer>
+      </Search>
+      <ChatsStyle>{createGroupUsers()}</ChatsStyle>
+    </CreateGroupStyle>
   );
 }
 

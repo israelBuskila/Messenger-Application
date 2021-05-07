@@ -34,8 +34,7 @@ exports.initforNewUser = async (username) => {
 };
 
 exports.getAllChats = async (userName) => {
-  // let chats = await conversationsDAL.getConversationsByUserName(userName);
-  let m = [];
+ 
   let user = await usersLoginDAL.getUserByUserName(userName);
   user[0].Groups.map((x) => {
     return groupsDAL.getGroupById(x.Id).then((g) => m.push(g));

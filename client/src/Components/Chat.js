@@ -7,14 +7,12 @@ import React, { useState, useEffect } from "react";
 import "../style/Chat.css";
 import style from "styled-components";
 import { useSocket } from "../contexts/SocketProvider";
-import { useUsers } from "../contexts/UsersProvider";
 import { useSelect } from "../contexts/SelectProvider";
 import { useChats } from "../contexts/ChatsProvider";
 
 const Chat = () => {
   const socket = useSocket();
   const [input, setInput] = useState("");
-  const [users, setUsers] = useUsers();
   const [select, setSelect] = useSelect();
   const [chats, setChats] = useChats([]);
   const [addressee, setAddressee] = useState();
