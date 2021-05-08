@@ -22,7 +22,7 @@ exports.createUser = async (newUser) => {
   if (user[0] === undefined) {
     await conversationsBL.initforNewUser(newUser.UserName);
     let resp = await usersLoginDAL.addUserLogin(newUser);
-    console.log(resp);
+    
     return resp;
   } else return "This UserName already exists Please choose another UserName !";
 };

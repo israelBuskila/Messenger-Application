@@ -68,7 +68,7 @@ exports.sockets = (socket) => {
   //members = aray of users that members in this group
   socket.on("createGroup", async (newGroup) => {
     let resp = await groupDAL.addGroup(newGroup);
-    console.log(resp);
+ 
     newGroup.Members.forEach(async (m) => {
       let user = await usersLoginDAL.getUserByUserName(m);
       console.log(user);
@@ -181,6 +181,7 @@ exports.sockets = (socket) => {
     }
   });
 
+  //update in DB that 
   socket.on("exitGroup", async (exitGroup) => {
     console.log(exitGroup);
     let user = await usersLoginDAL.getUserByUserName(exitGroup.UserName);
@@ -204,7 +205,7 @@ exports.sockets = (socket) => {
     if (admins.length == 0 && members.length > 0) {
       admins.push(members[0]);
     }
-    console.log(members);
+   
     let updateGroup = {
       Title: group.Title,
       Admins: admins,
