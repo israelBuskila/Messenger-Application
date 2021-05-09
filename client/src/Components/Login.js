@@ -10,9 +10,9 @@ import {
 } from "@material-ui/core";
 import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
+import authService from "../services/authService";
 import { useStyles } from "../style/styleLogin";
 import Box from "@material-ui/core/Box";
-
 
 // import { LockOutlinedIcon } from "@material-ui/icons/LockOutlined";
 
@@ -20,7 +20,6 @@ function Login() {
   const classes = useStyles();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-
 
   let history = useHistory();
 
@@ -31,17 +30,16 @@ function Login() {
     };
     let response = await axios.post("http://localhost:3001/login", obj);
 
-    if (response.data.a === true) {
-
-
+    if (response.data.authResult === true) {
       let userInfo = {
         UserName: obj.UserName,
-
       };
       sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+      authService.saveToken(response.data.token);
+      console.log(response.data.token);
       return history.push("/main");
-    } else if (response.data.a === "User does not exist !") {
-      alert(response.data.a);
+    } else if (response.data.authResult === "User does not exist !") {
+      alert(response.data.authResult);
       return history.push("/");
     } else {
       alert("Incorrect password !");

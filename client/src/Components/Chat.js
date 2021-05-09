@@ -102,7 +102,6 @@ const Chat = () => {
       socket.emit("groupMessage", newMessage);
     }
     arr.sort(function (a, b) {
-        
       return (
         new Date(b.Chat.slice(-1)[0].TimeStamp) -
         new Date(a.Chat.slice(-1)[0].TimeStamp)
@@ -161,8 +160,7 @@ const Chat = () => {
     socket.emit("groupMessage", newMessage);
     let temp = [...chats];
     temp.splice(select, 1);
-    // temp[select].Members = temp[select].Members.filter((m) => m !== sender);
-    // temp[select].Admins = temp[select].Admins.filter((a) => a !== sender);
+
     setSelect(0);
     setChats(temp);
 
