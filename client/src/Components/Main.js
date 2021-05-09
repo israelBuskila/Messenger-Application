@@ -15,7 +15,7 @@ function Main() {
   const [chats, setChats] = useChats();
   const [select] = useSelect();
   const [users, setUsers] = useUsers();
- 
+
   const [sideBar, setSideBar] = useState("chat");
 
   const username = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
@@ -53,7 +53,13 @@ function Main() {
         if (c._id === newMessage.ID) {
           let temp = [...chats];
           temp[i].Chat.push(newMessage);
-
+          temp.sort(function (a, b) {
+        
+            return (
+              new Date(b.Chat.slice(-1)[0].TimeStamp) -
+              new Date(a.Chat.slice(-1)[0].TimeStamp)
+            );
+          });
           setChats(temp);
         }
       });
@@ -79,7 +85,14 @@ function Main() {
           console.log(newMessage);
           let arr = [...chats];
           arr[t].Chat.push(newMessage);
-
+          console.log(arr[t].Chat.slice(-1)[0].TimeStamp)
+          arr.sort(function (a, b) {
+        
+            return (
+              new Date(b.Chat.slice(-1)[0].TimeStamp) -
+              new Date(a.Chat.slice(-1)[0].TimeStamp)
+            );
+          });
           setChats(arr);
         }
       });

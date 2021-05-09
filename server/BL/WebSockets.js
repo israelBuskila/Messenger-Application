@@ -4,6 +4,7 @@ const usersLoginDAL = require("../DAL/usersLoginDAL");
 
 const onlineUsers = [];
 
+
 exports.sockets = (socket) => {
   socket.on("username", ({ UserName }) => {
     var found = false;
@@ -35,13 +36,14 @@ exports.sockets = (socket) => {
         let id = search[0]._id;
         let arr = search[0].Chat;
         arr.push(newMessage);
-        await conversationDAL.updateConversation(id, {
+        let data = await conversationDAL.updateConversation(id, {
           UserA: search[0].UserA,
           UserB: search[0].UserB,
           Chat: arr,
           Type: search[0].Type,
           BlockedBy: search[0].BlockedBy,
         });
+      
       }
       // else if (search[0].BlockedBy.length > 0) {
       //   let user = onlineUsers.filter((x) => x.UserName == newMessage.Sender);
@@ -68,7 +70,7 @@ exports.sockets = (socket) => {
   //members = aray of users that members in this group
   socket.on("createGroup", async (newGroup) => {
     let resp = await groupDAL.addGroup(newGroup);
- 
+
     newGroup.Members.forEach(async (m) => {
       let user = await usersLoginDAL.getUserByUserName(m);
       console.log(user);
@@ -181,7 +183,7 @@ exports.sockets = (socket) => {
     }
   });
 
-  //update in DB that 
+  //update in DB that
   socket.on("exitGroup", async (exitGroup) => {
     console.log(exitGroup);
     let user = await usersLoginDAL.getUserByUserName(exitGroup.UserName);
@@ -205,7 +207,7 @@ exports.sockets = (socket) => {
     if (admins.length == 0 && members.length > 0) {
       admins.push(members[0]);
     }
-   
+
     let updateGroup = {
       Title: group.Title,
       Admins: admins,

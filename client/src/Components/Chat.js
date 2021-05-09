@@ -101,6 +101,13 @@ const Chat = () => {
       arr[select].Chat.push(newMessage);
       socket.emit("groupMessage", newMessage);
     }
+    arr.sort(function (a, b) {
+        
+      return (
+        new Date(b.Chat.slice(-1)[0].TimeStamp) -
+        new Date(a.Chat.slice(-1)[0].TimeStamp)
+      );
+    });
     setChats(arr);
     setInput("");
   };
