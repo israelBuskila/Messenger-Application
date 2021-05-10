@@ -71,49 +71,53 @@ import style from "styled-components";
 export const CreateGroupStyle = style.div`
 display: flex;
   flex-direction: column;
-  flex: 0.35;`
+  flex: 0.35;
+  border: 1px solid lightgray;
+  `;
 
-  export const Header = style.div`
-display: flex;
+export const Header = style.div`
+  display: flex;
   flex-direction: column;
-  flex: 0.35;`
+  flex: 0.35;`;
 
-  export const Search  = style.div`
+export const Search = style.div`
     display: flex;
     align-items: center;
-    background-color: #f6f6f6;
+    
     height: 39px;
     padding: 10px;
-  `
+    
+  `;
 
-  export const SearchContainer  = style.div`
+export const SearchContainer = style.div`
   display: flex;
   align-items: center;
   background-color: white;
   width: 100%;
   height: 35px;
   border-radius: 20px;
-  `
-  // export const SearchContainer2 =style.MuiSvgIcon-root`
-  //   color: gray;
-  //   padding: 10px;
-  // `
   
-  export const SearchContainer3 = style.input`
+  `;
+export const SearchContainer2 = style.div`
+    color: gray;
+    padding: 10px;
+  `;
+
+export const SearchContainer3 = style.div`
     border: none;
     outline-width: 0;
     margin-left: 10px;
-  `
+  `;
 
-  export const ChatsStyle  = style.div`
+export const ChatsStyle = style.div`
   flex: 1;
   background-color: white;
   overflow: scroll;
-  `
+  `;
 
-  export const Btn  = style.div`
+export const Btn = style.div`
   background-color: white;
   border: none;
   width: 100%;
   outline: none;
-  `
+  `;

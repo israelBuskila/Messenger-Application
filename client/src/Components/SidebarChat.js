@@ -4,7 +4,9 @@ import { Box, Box2, H2 } from "../style/SidebarChatStyle";
 import React from "react";
 
 
+
 const SidebarChat = ({ username , lastMessage }) =>{
+
   return (
     <Box>
       <Avatar />

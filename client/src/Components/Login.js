@@ -31,10 +31,9 @@ function Login() {
     let response = await axios.post("http://localhost:3001/login", obj);
 
     if (response.data.authResult === true) {
-      let userInfo = {
-        UserName: obj.UserName,
-      };
-      sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+   
+      sessionStorage["userInfo"] = userName;
+
       authService.saveToken(response.data.token);
       console.log(response.data.token);
       return history.push("/main");

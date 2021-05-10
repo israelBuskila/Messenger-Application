@@ -7,10 +7,13 @@ import Main from "./Main";
 
 
 const App = () => {
+
+  
   return (
     
 
-    <div>
+    <div >
+     
       <Switch>
         <Route exact path="/" component={Login} />
         <Route exact path="/signUp" component={SignUp} />

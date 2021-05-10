@@ -18,7 +18,7 @@ const Chat = () => {
   const [addressee, setAddressee] = useState();
   const [display, setDisplay] = useState(false);
 
-  const sender = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
+  const sender = sessionStorage["userInfo"];
 
   useEffect(() => {
     if (chats.length > 0 && select !== undefined) {
@@ -41,6 +41,8 @@ const Chat = () => {
   const username = () => {
     if (addressee) {
       return <h3>{addressee}</h3>;
+    }else{
+      console.log("object")
     }
   };
 

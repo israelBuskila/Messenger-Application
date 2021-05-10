@@ -27,21 +27,8 @@ router.post("/", async (req, res, next) => {
       )
     );
 
-    res.send(chats);
+    res.status(200).send(chats);
   });
-
-  // let chats = await conversatiosDAL.getConversationsByUserName(
-  //   req.body.UserName
-  // );
-  // let user = await usersLoginDAL.getUserByUserName(req.body.UserName);
-
-  // let data_chat = await Promise.all(
-  //   user[0].Groups.map(async (x) =>
-  //     chats.push(await groupsDAL.getGroupById(x.Id))
-  //   )
-  // );
-
-  // res.status(200).send(chats);
 });
 
 module.exports = router;

@@ -7,7 +7,7 @@ export function useSelect() {
 }
 
 export function SelectProvider({ children }) {
-  const [select, setSelect] = useState(0);
+  const [select, setSelect] = useState();
 
 
   return (

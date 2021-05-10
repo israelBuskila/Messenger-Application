@@ -14,13 +14,14 @@ import {
   Search,
   SearchContainer,
   ChatsStyle,
+  SearchContainer2,
   SearchContainer3,
 } from "../style/CreateGroupStyle";
 
 import CreateGroupUsers from "./CreateGroupUsers";
-
+import styled from "styled-components";
 function CreateGroup(props) {
-  const sender = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
+  const sender = sessionStorage["userInfo"];
 
   const [chats, setChats] = useChats();
   const [members, setMembers] = useState([sender]);
@@ -65,7 +66,7 @@ function CreateGroup(props) {
       return chats.map((chat, index) => {
         if (
           chat.Type === "private messages" &&
-          chat.UserA !== JSON.parse(sessionStorage.getItem("userInfo")).UserName
+          chat.UserA !== sessionStorage["userInfo"]
         ) {
           return (
             <button
@@ -80,7 +81,7 @@ function CreateGroup(props) {
           );
         } else if (
           chat.Type === "private messages" &&
-          chat.UserB !== JSON.parse(sessionStorage.getItem("userInfo")).UserName
+          chat.UserB !== sessionStorage["userInfo"]
         ) {
           return (
             <button
@@ -100,27 +101,28 @@ function CreateGroup(props) {
   return (
     <CreateGroupStyle>
       <Header>
-        <TextField
+      <MyArrowBackIcon onClick={() => props.callback()} />
+      <AddGroup>Add group participants</AddGroup>
+        <GroupName
           label={"Type group subject here..."}
           value={title}
           onChange={(e) => {
             setTitle(e.target.value);
           }}
         />
-        <p>Add group participants</p>
-        <ArrowBackIcon onClick={() => props.callback()} />
-        <Button variant="outlined" onClick={(e) => onSubmit(e)}>
+       
+        <SearchButton variant="outlined" onClick={(e) => onSubmit(e)}>
           Create Group
-        </Button>
+        </SearchButton>
       </Header>
 
       <Search>
         <SearchContainer>
           {/* <SearchContainer2> */}
-          <SearchContainer3 >
-            {/* <SearchOutlined /> */}
-            {/* <input placeholder="type contact name" type="text" /> */}
-          </SearchContainer3>
+          {/* <SearchContainer3 > */}
+          <MySearchOutlined />
+          <Input placeholder="type contact name" type="text" />
+          {/* </SearchContainer3> */}
           {/* </SearchContainer2> */}
         </SearchContainer>
       </Search>
@@ -130,3 +132,57 @@ function CreateGroup(props) {
 }
 
 export default CreateGroup;
+
+const Input = styled.input`
+  border: none;
+  outline: none;
+`;
+
+const MySearchOutlined = styled(SearchOutlined)`
+  margin-right: 2vw;
+  padding: 3px;
+  color: gray;
+`;
+
+const GroupName = styled(TextField)`
+border: none;
+outline: none;
+
+  width:80%;
+  margin-left:1.6rem;
+  & label.Mui-focused {
+    color: black;
+  }
+  & .MuiInput-underline:after {
+    border-bottom-color: black;
+  }
+  & .MuiOutlinedInput-root {
+    & fieldset {
+      border-color: black;
+    }
+    &:hover fieldset {
+      border-color: black;
+    }
+    &.Mui-focused fieldset {
+      border-color: black;
+    }
+  }
+`;
+const SearchButton = styled(Button)`
+width:80%;
+border-radius:4px;
+margin-left:1.6rem;
+margin-bottom:1.6rem;
+margin-top:1.6rem;
+`
+
+const AddGroup = styled.p`
+
+margin-left:2.2rem;
+font-weight:400;
+`
+
+
+const MyArrowBackIcon = styled(ArrowBackIcon)`
+margin-top:1.6rem;
+`

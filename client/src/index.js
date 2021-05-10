@@ -5,7 +5,6 @@ import App from "./Components/App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
 import { SocketProvider } from "./contexts/SocketProvider";
-import { UsersProvider } from "./contexts/UsersProvider";
 import { SelectProvider } from "./contexts/SelectProvider";
 import { ChatsProvider } from "./contexts/ChatsProvider";
 
@@ -13,13 +12,11 @@ ReactDOM.render(
   <React.StrictMode>
     <Router>
       <SocketProvider>
-        <UsersProvider>
-          <SelectProvider>
-            <ChatsProvider>
-              <App />
-            </ChatsProvider>
-          </SelectProvider>
-        </UsersProvider>
+        <SelectProvider>
+          <ChatsProvider>
+            <App />
+          </ChatsProvider>
+        </SelectProvider>
       </SocketProvider>
     </Router>
   </React.StrictMode>,

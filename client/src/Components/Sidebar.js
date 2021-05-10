@@ -18,8 +18,6 @@ function Sidebar(props) {
   const [display, setDisplay] = useState(false);
   const [chats, setChats] = useChats();
 
-  const sender = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
-
   const createGroup = () => {
     props.callback();
   };
@@ -28,7 +26,7 @@ function Sidebar(props) {
       return chats.map((chat, index) => {
         if (
           chat.Type === "private messages" &&
-          chat.UserA !== JSON.parse(sessionStorage.getItem("userInfo")).UserName
+          chat.UserA !== sessionStorage["userInfo"]
         ) {
           return (
             <button
@@ -36,6 +34,7 @@ function Sidebar(props) {
               className="btn"
               onClick={() => {
                 setSelect(index);
+                props.callChat();
               }}
             >
               {" "}
@@ -48,7 +47,7 @@ function Sidebar(props) {
           );
         } else if (
           chat.Type === "private messages" &&
-          chat.UserB !== JSON.parse(sessionStorage.getItem("userInfo")).UserName
+          chat.UserB !== sessionStorage["userInfo"]
         ) {
           return (
             <button
@@ -56,6 +55,7 @@ function Sidebar(props) {
               className="btn"
               onClick={() => {
                 setSelect(index);
+                props.callChat();
               }}
             >
               {" "}
@@ -73,6 +73,7 @@ function Sidebar(props) {
               className="btn"
               onClick={() => {
                 setSelect(index);
+                props.callChat();
               }}
             >
               {" "}

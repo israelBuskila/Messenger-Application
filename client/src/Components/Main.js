@@ -2,42 +2,29 @@ import "../style/Main.css";
 import Chat from "./Chat";
 import Sidebar from "./Sidebar";
 import CreateGroup from "./CreateGroup";
+import { useHistory } from "react-router-dom";
 import { useSocket } from "../contexts/SocketProvider";
 import { useChats } from "../contexts/ChatsProvider";
-import { useSelect } from "../contexts/SelectProvider";
-import { useUsers } from "../contexts/UsersProvider";
+
 import authService from "../services/authService";
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import PreSelect from "./PreSelect";
 
 function Main() {
+  let history = useHistory();
   const socket = useSocket();
   const [chats, setChats] = useChats();
-  const [select] = useSelect();
-  const [users, setUsers] = useUsers();
+  const [screenChat, setScreenChat] = useState("preChat");
 
   const [sideBar, setSideBar] = useState("chat");
-
-  const username = JSON.parse(sessionStorage.getItem("userInfo")).UserName;
-  useEffect(() => {
-    let token = authService.getToken();
-    console.log(token);
-    //get users
-    if (users.length === 0)
-      axios
-        .post(
-          "http://localhost:3001/getUser",
-          { UserName: username },
-          { headers: { "x-access-token": token } }
-        )
-        .then((resp) => {
-          setUsers(resp.data[0]);
-        });
-  }, [users]);
+  const username = sessionStorage["userInfo"];
+  console.log(username);
 
   useEffect(() => {
     let token = authService.getToken();
+    if (token == null) return history.push("/");
     axios
       .post(
         "http://localhost:3001/chats",
@@ -118,12 +105,18 @@ function Main() {
     <div className="app">
       <div className="app__body">
         {sideBar === "chat" && (
-          <Sidebar callback={() => setSideBar("createGroup")} />
+          <Sidebar
+            callback={() => setSideBar("createGroup")}
+            callChat={() => setScreenChat("chat")}
+          />
         )}
         {sideBar === "createGroup" && (
           <CreateGroup callback={() => setSideBar("chat")} />
         )}
-        <Chat />
+
+        {screenChat == "chat" && <Chat />}
+        {screenChat == "preChat" && <PreSelect />}
+        {/* <Chat callback={() => setScreenChat("screenChat")}/> */}
       </div>
     </div>
   );

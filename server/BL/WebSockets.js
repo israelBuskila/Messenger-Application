@@ -45,14 +45,7 @@ exports.sockets = (socket) => {
         });
       
       }
-      // else if (search[0].BlockedBy.length > 0) {
-      //   let user = onlineUsers.filter((x) => x.UserName == newMessage.Sender);
-      //   if (user[0]) {
-      //     socket.to(user[0].SocketId).emit("private", {
-      //       Message: "The message was not sent because this chat is blocked",
-      //     });
-      //   }
-      // }
+
     } else {
       let obj = {
         UserA: newMessage.Sender,
