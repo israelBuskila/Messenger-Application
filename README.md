@@ -1,4 +1,4 @@
-# Messnger-Application
+# Messenger-Application
 1. A Login page for the registered users.
 2. Each user can send message to any other user
 3. Each user can create a Group and add other users to that group
