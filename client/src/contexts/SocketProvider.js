@@ -11,7 +11,7 @@ export function SocketProvider({ id, children }) {
   const [socket, setSocket] = useState();
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3001");
+    const newSocket = io("https://messengerapplication-server.herokuapp.com");
     setSocket(newSocket);
     return () => newSocket.close();
   }, [id]);
