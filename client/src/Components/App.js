@@ -5,15 +5,11 @@ import Login from "./Login";
 import SignUp from "./SignUp";
 import Main from "./Main";
 
-
 const App = () => {
+  console.log("");
 
-  
   return (
-    
-
-    <div >
-     
+    <div>
       <Switch>
         <Route exact path="/" component={Login} />
         <Route exact path="/signUp" component={SignUp} />
