@@ -3,6 +3,13 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const auth = require("../BL/authntication");
 
+const test = require("../DAL/conversationsDAL");
+
+router.get("/test", async (req, res, next) => {
+  let resp = await test.getAllConversations();
+  console.log(resp);
+  res.send(resp);
+});
 router.post("/login", async (req, res, next) => {
   const user = {
     UserName: req.body.UserName,

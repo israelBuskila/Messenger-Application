@@ -27,7 +27,7 @@ function Main() {
     if (token == null) return history.push("/");
     axios
       .post(
-        "http://localhost:3001/chats",
+        "https://messengerapplication-server.herokuapp.com/chats",
         { UserName: username },
         { headers: { "x-access-token": token } }
       )

@@ -45,29 +45,36 @@ const SignUp = () => {
       UserName: userName,
       Password: password,
     };
-    axios.post("http://localhost:3001/createAccount", obj).then(
-      (response) => {
-        console.log(response.data);
-        if (response.data == userName) {
-          return history.push("/");
-        } else if (
-          response.data ===
-          "This UserName already exists Please choose another UserName !"
-        ) {
-          alert(response.data);
+    axios
+      .post(
+        "https://messengerapplication-server.herokuapp.com/createAccount",
+        obj
+      )
+      .then(
+        (response) => {
+          console.log(response.data);
+          if (response.data == userName) {
+            return history.push("/");
+          } else if (
+            response.data ===
+            "This UserName already exists Please choose another UserName !"
+          ) {
+            alert(response.data);
+          }
+        },
+        (error) => {
+          console.log(error);
         }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      );
   };
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}><LockOutlinedIcon /></Avatar>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>

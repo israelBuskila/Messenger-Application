@@ -28,7 +28,7 @@ function Login() {
       UserName: userName,
       Password: password,
     };
-    let response = await axios.post("http://localhost:3001/login", obj);
+    let response = await axios.post("https://messengerapplication-server.herokuapp.com/login", obj);
 
     if (response.data.authResult === true) {
    
