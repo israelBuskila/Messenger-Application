@@ -20,7 +20,6 @@ function Main() {
 
   const [sideBar, setSideBar] = useState("chat");
   const username = sessionStorage["userInfo"];
-  console.log(username);
 
   useEffect(() => {
     let token = authService.getToken();
@@ -75,16 +74,14 @@ function Main() {
     }
 
     socket.on("private", (newMessage) => {
-      console.log(newMessage);
       chats.forEach((x, t) => {
         if (
           (x.UserA === newMessage.Sender && x.UserB === username) ||
           (x.UserA === username && x.UserB === newMessage.Sender)
         ) {
-          console.log(newMessage);
           let arr = [...chats];
           arr[t].Chat.push(newMessage);
-          console.log(arr[t].Chat.slice(-1)[0].TimeStamp);
+
           arr.sort(function (a, b) {
             return (
               new Date(b.Chat.slice(-1)[0].TimeStamp) -

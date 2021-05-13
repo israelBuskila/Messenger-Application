@@ -35,7 +35,7 @@ function Login() {
       sessionStorage["userInfo"] = userName;
 
       authService.saveToken(response.data.token);
-      console.log(response.data.token);
+    
       return history.push("/main");
     } else if (response.data.authResult === "User does not exist !") {
       alert(response.data.authResult);

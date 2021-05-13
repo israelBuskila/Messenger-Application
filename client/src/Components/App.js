@@ -6,7 +6,7 @@ import SignUp from "./SignUp";
 import Main from "./Main";
 
 const App = () => {
-  console.log("");
+
 
   return (
     <div>

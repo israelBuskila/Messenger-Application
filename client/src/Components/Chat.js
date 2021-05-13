@@ -41,8 +41,6 @@ const Chat = () => {
   const username = () => {
     if (addressee) {
       return <h3>{addressee}</h3>;
-    }else{
-      console.log("object")
     }
   };
 
@@ -170,7 +168,7 @@ const Chat = () => {
       UserName: sender,
       ID: chats[select]._id,
     };
-    console.log(groupInfo);
+   
     socket.emit("exitGroup", groupInfo);
   };
 

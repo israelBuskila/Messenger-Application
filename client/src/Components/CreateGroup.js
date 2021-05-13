@@ -30,7 +30,7 @@ function CreateGroup(props) {
   const socket = useSocket();
 
   const storeMembers = (e) => {
-    console.log(e.currentTarget.value);
+   
     setMembers([...members, e.currentTarget.value]);
   };
 
@@ -53,7 +53,7 @@ function CreateGroup(props) {
       Chat: [{ Message: sender + " added you", TimeStamp: time }],
       Type: "group",
     };
-    console.log(newGroup);
+    
     setChats([...chats, newGroup]);
 
     socket.emit("createGroup", newGroup);

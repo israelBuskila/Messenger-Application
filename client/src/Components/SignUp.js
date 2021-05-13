@@ -52,7 +52,7 @@ const SignUp = () => {
       )
       .then(
         (response) => {
-          console.log(response.data);
+         
           if (response.data == userName) {
             return history.push("/");
           } else if (
