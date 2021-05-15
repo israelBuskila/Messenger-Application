@@ -1,6 +1,7 @@
 import "../style/Main.css";
 import Chat from "./Chat";
 import Sidebar from "./Sidebar";
+import styled from "styled-components";
 import CreateGroup from "./CreateGroup";
 import { useHistory } from "react-router-dom";
 import { useSocket } from "../contexts/SocketProvider";
@@ -120,3 +121,35 @@ function Main() {
 }
 
 export default Main;
+
+const app = styled.div`
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  background-color: #dadbd3;
+`;
+
+const body = styled.div`
+  display: flex;
+  background-color: #ededed;
+  margin-top: -50px;
+  height: 90vh;
+  width: 90vw;
+  box-shadow: -1px 4px 20px -6px rgba(0, 0, 0, 0.75);
+`;
+
+// .app {
+//   display: grid;
+//   place-items: center;
+//   height: 100vh;
+//   background-color: #dadbd3;
+// }
+
+// .app__body {
+//   display: flex;
+//   background-color: #ededed;
+//   margin-top: -50px;
+//   height: 90vh;
+//   width: 90vw;
+//   box-shadow: -1px 4px 20px -6px rgba(0, 0, 0, 0.75);
+// }

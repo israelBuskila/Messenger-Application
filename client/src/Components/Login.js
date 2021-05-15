@@ -8,12 +8,16 @@ import {
   Avatar,
   Grid,
 } from "@material-ui/core";
+
+import { createMuiTheme } from "@material-ui/core/styles";
+
 import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
 import authService from "../services/authService";
 import { useStyles } from "../style/styleLogin";
 import Box from "@material-ui/core/Box";
 
+//07bc4c
 // import { LockOutlinedIcon } from "@material-ui/icons/LockOutlined";
 
 function Login() {
@@ -28,14 +32,16 @@ function Login() {
       UserName: userName,
       Password: password,
     };
-    let response = await axios.post("https://messengerapplication-server.herokuapp.com/login", obj);
+    let response = await axios.post(
+      "https://messengerapplication-server.herokuapp.com/login",
+      obj
+    );
 
     if (response.data.authResult === true) {
-   
       sessionStorage["userInfo"] = userName;
 
       authService.saveToken(response.data.token);
-    
+
       return history.push("/main");
     } else if (response.data.authResult === "User does not exist !") {
       alert(response.data.authResult);
