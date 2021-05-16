@@ -6,12 +6,10 @@ import SignUp from "./SignUp";
 import Main from "./Main";
 
 const App = () => {
-
-
   return (
     <div>
       <Switch>
-        <Route exact path="/" component={Login} />
+        <Route exact path="/" component={Main} />
         <Route exact path="/signUp" component={SignUp} />
         <Route exact path="/main" component={Main} />
       </Switch>
