@@ -22,7 +22,7 @@ The server manage databases implemented by MongoDB and express-jwt for authentic
 Developed in React, the global state managed by context API hook and the design
 implemented in styled-components.
 
-## Technologies
+## Technologies Used
 Project is created with:
 * Node.js using Express package.
 * SOCKET.IO.
