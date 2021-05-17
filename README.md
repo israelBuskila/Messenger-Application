@@ -13,9 +13,13 @@ implemented in styled-components.
 ## Technologies
 Project is created with:
 * Node.js using Express package.
+* SOCKET.IO.
 * MongoDB.
 * Express-jwt.
 * React.
 * Context API Hook.
 * Styled-Components.
 * Material-UI.
+
+## Link to a website
+https://messenger-app-realtime.netlify.app/
