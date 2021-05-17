@@ -45,4 +45,4 @@ member at.
 * The calls are sorted automatically according to the order in which they were sent or received in reality.
 
 ## Screenshots
-![Example screenshot](./img/login.png)
+![Example screenshot](../img/login.png)
