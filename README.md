@@ -1,4 +1,5 @@
 # Messenger Application (“WhatsApp alike” )
+Live demo [_here_](https://messenger-app-realtime.netlify.app/).
 ## General info
 A web application for instant messaging that allows each user to send private messages (to another user) and create new groups. Using SOCKET.IO for real
 time communication between web clients and server.
@@ -20,8 +21,7 @@ Project is created with:
 * Styled-Components.
 * Material-UI.
 
-## Link to a website
-https://messenger-app-realtime.netlify.app/
+
 
 ## Features
 * A Login page for the registered users.
