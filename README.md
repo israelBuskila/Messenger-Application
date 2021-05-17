@@ -23,3 +23,14 @@ Project is created with:
 
 ## Link to a website
 https://messenger-app-realtime.netlify.app/
+
+## Features
+* A Login page for the registered users.
+* Each user can send message to any other user
+* Each user can create a Group and add other users to that group
+* Each user can get message from any other user and messages to the groups he’s a
+member at.
+* Each user can exit leave a group.
+* Each user can watch a list of all the groups he’s member of.
+* Each user can block and unblock other users.
+* Each user can watch a history of all his last 20 coversations.
