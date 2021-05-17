@@ -6,8 +6,7 @@ Live demo [_here_](https://messenger-app-realtime.netlify.app/).
 * [Technologies Used](#technologies-used)
 * [Features](#features)
 * [Screenshots](#screenshots)
-* [Project Status](#project-status)
-* [Room for Improvement](room-for-improvement)
+
 
 
 
