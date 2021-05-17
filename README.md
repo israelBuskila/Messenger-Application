@@ -45,9 +45,11 @@ member at.
 * The calls are sorted automatically according to the order in which they were sent or received in reality.
 
 ## Screenshots
-* Login: ![Example screenshot](./img/login.PNG)
-* Main: ![Example screenshot](./img/main.PNG)
-* Chat: ![Example screenshot](./img/chat.PNG)
-* Create Group: ![Example screenshot](./img/create_group.PNG)
-* Block/UnBlock user: ![Example screenshot](./img/block_or_unblock_user.PNG)
-* Exit Group: ![Example screenshot](./img/exit_group.PNG)
+#### Login: 
+![Example screenshot](./img/login.PNG)
+#### Main: 
+![Example screenshot](./img/main.PNG)
+#### Chat: ![Example screenshot](./img/chat.PNG)
+#### Create Group: ![Example screenshot](./img/create_group.PNG)
+#### Block/UnBlock user: ![Example screenshot](./img/block _or_unblock_user.PNG)
+#### Exit Group: ![Example screenshot](./img/exit_group.PNG)
