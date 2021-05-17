@@ -12,6 +12,10 @@ implemented in styled-components.
 
 ## Technologies
 Project is created with:
-* Lorem version: 12.3
-* Ipsum version: 2.33
-* Ament library version: 999
+* Node.js using Express package.
+* MongoDB.
+* Express-jwt.
+* React.
+* Context API Hook.
+* Styled-Components.
+* Material-UI.
