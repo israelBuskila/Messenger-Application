@@ -9,3 +9,9 @@ The server manage databases implemented by MongoDB and express-jwt for authentic
 ### - Client side: 
 Developed in React, the global state managed by context API hook and the design
 implemented in styled-components.
+
+## Technologies
+Project is created with:
+* Lorem version: 12.3
+* Ipsum version: 2.33
+* Ament library version: 999
