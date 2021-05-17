@@ -44,6 +44,7 @@ member at.
 * Each user can watch a list of all the groups he’s member of.
 * Each user can block and unblock other users.
 * The calls are sorted automatically according to the order in which they were sent or received in reality.
+* Indication for sending or receiving a message - The background of the received message will be white and the background of the sent message will be green.
 
 ## Screenshots
 #### Login: 
