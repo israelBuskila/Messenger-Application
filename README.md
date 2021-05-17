@@ -6,8 +6,6 @@ Live demo [_here_](https://messenger-app-realtime.netlify.app/).
 * [Technologies Used](#technologies-used)
 * [Features](#features)
 * [Screenshots](#screenshots)
-* [Setup](#setup)
-* [Usage](#usage)
 * [Project Status](#project-status)
 
 
@@ -44,4 +42,6 @@ member at.
 * Each user can exit leave a group.
 * Each user can watch a list of all the groups he’s member of.
 * Each user can block and unblock other users.
-* Each user can watch a history of all his last 20 coversations.
+* The calls are sorted automatically according to the order in which they were sent or received in reality.
+
+## Screenshots
