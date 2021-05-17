@@ -46,3 +46,8 @@ member at.
 
 ## Screenshots
 * Login: ![Example screenshot](./img/login.PNG)
+* Main: ![Example screenshot](./img/main.PNG)
+* Chat: ![Example screenshot](./img/chat.PNG)
+* Create Group: ![Example screenshot](./img/create_group.PNG)
+* Block/UnBlock user: ![Example screenshot](./img/block_or_unblock_user.PNG)
+* Exit Group: ![Example screenshot](./img/exit_group.PNG)
