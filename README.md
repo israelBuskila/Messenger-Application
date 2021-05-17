@@ -1,5 +1,5 @@
-
-# Messenger Application (“WhatsApp alike” )
+# Project Name
+Messenger Application (“WhatsApp alike” )
 ## General info
 A web application for instant messaging that allows each user to send private messages (to another user) and create new groups. Using SOCKET.IO for real
 time communication between web clients and server.
