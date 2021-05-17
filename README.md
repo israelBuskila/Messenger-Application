@@ -1,5 +1,5 @@
 # Messenger Application (“WhatsApp alike” )
-Live Aplication [_here_](https://messenger-app-realtime.netlify.app/).
+Live Application [_here_](https://messenger-app-realtime.netlify.app/).
 
 ## Table of Contents
 * [General Info](#general-information)
