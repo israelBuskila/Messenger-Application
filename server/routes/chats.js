@@ -6,7 +6,7 @@ const groupsDAL = require("../DAL/groupsDAL");
 const usersLoginDAL = require("../DAL/usersLoginDAL");
 
 router.post("/", async (req, res, next) => {
-  console.log(req.headers["x-access-token"]);
+ 
   let token = req.headers["x-access-token"];
   if (!token) {
     return res.status(401).send({ auth: false, message: "No token provided." });
