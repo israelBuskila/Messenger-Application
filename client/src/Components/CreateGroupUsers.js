@@ -8,7 +8,7 @@ function CreateGroupUsers({ username }) {
   const [groupSelect, setGruopSelect] = useState("white");
   return (
     <button  onClick={()=>setGruopSelect("gray")}  
-    style={{ backgroundColor: groupSelect }}>
+    style={{ backgroundColor: groupSelect, minWidth:"236px" }}>
     <Box>
       <Avatar />
       <Box2 >
@@ -20,3 +20,5 @@ function CreateGroupUsers({ username }) {
 }
 
 export default CreateGroupUsers;
+
+
