@@ -24,7 +24,7 @@ import { colors } from "@material-ui/core";
 
 function CreateGroup(props) {
   const sender = sessionStorage["userInfo"];
-  const [groupSelect, setGruopSelect] = useState("white");
+
   const [chats, setChats] = useChats();
   const [members, setMembers] = useState([sender]);
   const [title, setTitle] = useState("");
@@ -76,9 +76,7 @@ function CreateGroup(props) {
               value={chat.UserA}
               onClick={(e) => {
                 storeMembers(e);
-                setGruopSelect("gray");
               }}
-              style={{ backgroundColor: groupSelect }}
             >
               {" "}
               <CreateGroupUsers key={index} username={chat.UserA} />
@@ -95,9 +93,7 @@ function CreateGroup(props) {
               value={chat.UserB}
               onClick={(e) => {
                 storeMembers(e);
-                setGruopSelect("gray");
               }}
-              style={{ backgroundColor: groupSelect }}
             >
               {" "}
               <CreateGroupUsers key={index} username={chat.UserB} />
