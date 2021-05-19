@@ -33,6 +33,7 @@ function CreateGroup(props) {
 
   const storeMembers = (e) => {
     setMembers([...members, e.currentTarget.value]);
+    console.log(members);
   };
 
   const onSubmit = (e) => {
