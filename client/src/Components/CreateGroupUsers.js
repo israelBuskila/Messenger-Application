@@ -4,10 +4,12 @@ import { Box, Box2, H2 } from "../style/CreateGroupUsersStyle";
 import  { useState } from "react";
 
 
+
+
 function CreateGroupUsers({ username }) {
   const [groupSelect, setGruopSelect] = useState("white");
   return (
-    <button  onClick={()=>setGruopSelect("gray")}  
+    <button  onClick={()=>setGruopSelect("#808080")}  
     style={{ backgroundColor: groupSelect, minWidth:"238px", border:"none", marginTop:"3px"}}>
     <Box>
       <Avatar />
