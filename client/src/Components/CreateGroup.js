@@ -21,9 +21,10 @@ import {
 import CreateGroupUsers from "./CreateGroupUsers";
 import styled from "styled-components";
 import { colors } from "@material-ui/core";
+
 function CreateGroup(props) {
   const sender = sessionStorage["userInfo"];
-
+  const [groupSelect, setGruopSelect] = useState("white");
   const [chats, setChats] = useChats();
   const [members, setMembers] = useState([sender]);
   const [title, setTitle] = useState("");
@@ -31,7 +32,6 @@ function CreateGroup(props) {
   const socket = useSocket();
 
   const storeMembers = (e) => {
-   
     setMembers([...members, e.currentTarget.value]);
   };
 
@@ -54,7 +54,7 @@ function CreateGroup(props) {
       Chat: [{ Message: sender + " added you", TimeStamp: time }],
       Type: "group",
     };
-    
+
     setChats([...chats, newGroup]);
 
     socket.emit("createGroup", newGroup);
@@ -74,8 +74,11 @@ function CreateGroup(props) {
               key={index}
               className="btn"
               value={chat.UserA}
-              onClick={(e) => storeMembers(e)}
-              style={{backgroundColor:"yellow"}}
+              onClick={(e) => {
+                storeMembers(e);
+                setGruopSelect("gray");
+              }}
+              style={{ backgroundColor: groupSelect }}
             >
               {" "}
               <CreateGroupUsers key={index} username={chat.UserA} />
@@ -91,7 +94,7 @@ function CreateGroup(props) {
               className="btn"
               value={chat.UserB}
               onClick={(e) => storeMembers(e)}
-              style={{backgroundColor:"yellow"}}
+              style={{ backgroundColor: "yellow" }}
             >
               {" "}
               <CreateGroupUsers key={index} username={chat.UserB} />
@@ -104,8 +107,8 @@ function CreateGroup(props) {
   return (
     <CreateGroupStyle>
       <Header>
-      <MyArrowBackIcon onClick={() => props.callback()} />
-      <AddGroup>Add group participants</AddGroup>
+        <MyArrowBackIcon onClick={() => props.callback()} />
+        <AddGroup>Add group participants</AddGroup>
         <GroupName
           label={"Type group subject here..."}
           value={title}
@@ -113,7 +116,7 @@ function CreateGroup(props) {
             setTitle(e.target.value);
           }}
         />
-       
+
         <SearchButton variant="outlined" onClick={(e) => onSubmit(e)}>
           Create Group
         </SearchButton>
@@ -148,11 +151,11 @@ const MySearchOutlined = styled(SearchOutlined)`
 `;
 
 const GroupName = styled(TextField)`
-border: none;
-outline: none;
+  border: none;
+  outline: none;
 
-  width:80%;
-  margin-left:1.6rem;
+  width: 80%;
+  margin-left: 1.6rem;
   & label.Mui-focused {
     color: black;
   }
@@ -172,20 +175,18 @@ outline: none;
   }
 `;
 const SearchButton = styled(Button)`
-width:80%;
-border-radius:4px;
-margin-left:1.6rem;
-margin-bottom:1.6rem;
-margin-top:1.6rem;
-`
+  width: 80%;
+  border-radius: 4px;
+  margin-left: 1.6rem;
+  margin-bottom: 1.6rem;
+  margin-top: 1.6rem;
+`;
 
 const AddGroup = styled.p`
-
-margin-left:2.2rem;
-font-weight:400;
-`
-
+  margin-left: 2.2rem;
+  font-weight: 400;
+`;
 
 const MyArrowBackIcon = styled(ArrowBackIcon)`
-margin-top:1.6rem;
-`
+  margin-top: 1.6rem;
+`;
