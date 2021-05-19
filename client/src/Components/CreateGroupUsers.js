@@ -6,7 +6,7 @@ function CreateGroupUsers({ username }) {
   return (
     <Box>
       <Avatar />
-      <Box2>
+      <Box2 >
         <H2>{username}</H2>
       </Box2>
     </Box>

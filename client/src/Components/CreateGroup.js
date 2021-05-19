@@ -20,6 +20,7 @@ import {
 
 import CreateGroupUsers from "./CreateGroupUsers";
 import styled from "styled-components";
+import { colors } from "@material-ui/core";
 function CreateGroup(props) {
   const sender = sessionStorage["userInfo"];
 
@@ -74,6 +75,7 @@ function CreateGroup(props) {
               className="btn"
               value={chat.UserA}
               onClick={(e) => storeMembers(e)}
+              style={{backgroundColor:"yellow"}}
             >
               {" "}
               <CreateGroupUsers key={index} username={chat.UserA} />
@@ -89,6 +91,7 @@ function CreateGroup(props) {
               className="btn"
               value={chat.UserB}
               onClick={(e) => storeMembers(e)}
+              style={{backgroundColor:"yellow"}}
             >
               {" "}
               <CreateGroupUsers key={index} username={chat.UserB} />
