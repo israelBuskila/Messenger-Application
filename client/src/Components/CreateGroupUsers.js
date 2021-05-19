@@ -5,27 +5,31 @@ import { useState } from "react";
 
 function CreateGroupUsers({ username }) {
   const [groupSelect, setGruopSelect] = useState("white");
-  const selectMember = () => {
-    if (groupSelect === "white") setGruopSelect("#808080");
-    else setGruopSelect("white");
-  };
+
   return (
-    <button
-      onClick={selectMember()}
-      style={{
-        backgroundColor: groupSelect,
-        minWidth: "238px",
-        border: "none",
-        marginTop: "3px",
-      }}
-    >
-      <Box>
+    // <button
+    //   onClick={() => setGruopSelect("#808080")}
+    //   style={{
+    //     backgroundColor: groupSelect,
+    //     minWidth: "238px",
+    //     border: "none",
+    //     marginTop: "3px",
+    //   }}
+    // >
+      <Box onClick={() => setGruopSelect("#808080")}
+      // style={{
+      //   backgroundColor: groupSelect,
+      //   minWidth: "238px",
+      //   border: "none",
+      //   marginTop: "3px",
+      // }}
+      >
         <Avatar />
         <Box2>
           <H2>{username}</H2>
         </Box2>
       </Box>
-    </button>
+    // </button>
   );
 }
 

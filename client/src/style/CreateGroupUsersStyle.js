@@ -27,6 +27,7 @@ border-bottom: 1px solid #f6f6f6;
 &:hover{
     background-color: #ebebeb;
 }
+}
 `;
 
 export const Box2 = style.div`
