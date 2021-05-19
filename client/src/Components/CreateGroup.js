@@ -93,8 +93,11 @@ function CreateGroup(props) {
               key={index}
               className="btn"
               value={chat.UserB}
-              onClick={(e) => storeMembers(e)}
-              style={{ backgroundColor: "yellow" }}
+              onClick={(e) => {
+                storeMembers(e);
+                setGruopSelect("gray");
+              }}
+              style={{ backgroundColor: groupSelect }}
             >
               {" "}
               <CreateGroupUsers key={index} username={chat.UserB} />
