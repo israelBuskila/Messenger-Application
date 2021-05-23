@@ -48,6 +48,7 @@ const Chat = () => {
     let chatName;
     if (chats.length > 0 && select !== undefined) {
       return chats[select].Chat.map((message, i) => {
+       
         if (message.Sender === sender) {
           chatName = "chat__message chat__reciver";
         } else chatName = "chat__message";
@@ -56,7 +57,7 @@ const Chat = () => {
             <span className="chat__name">{message.Sender}</span>
 
             {message.Message}
-            <span className="chat__timestamp">{message.TimeStamp}</span>
+            <span className="chat__timestamp">{new Date(message.TimeStamp).toLocaleString()}</span>
           </p>
         );
       });
@@ -65,17 +66,7 @@ const Chat = () => {
 
   const sendMesage = (e) => {
     e.preventDefault();
-    var t = new Date();
-    var time =
-      t.getDate() +
-      "/" +
-      (t.getMonth() + 1) +
-      "/" +
-      t.getFullYear() +
-      "  " +
-      t.getHours() +
-      ":" +
-      t.getMinutes();
+    var time = new Date();
 
     let arr = [...chats];
     if (chats[select].Type === "private messages") {
@@ -85,7 +76,7 @@ const Chat = () => {
         Addressee: addressee,
         TimeStamp: time,
       };
-
+    
       arr[select].Chat.push(newMessage);
 
       socket.emit("private", newMessage);
@@ -102,54 +93,36 @@ const Chat = () => {
       socket.emit("groupMessage", newMessage);
     }
     arr.sort(function (a, b) {
+ 
       return (
         new Date(b.Chat.slice(-1)[0].TimeStamp) -
         new Date(a.Chat.slice(-1)[0].TimeStamp)
       );
     });
+
     setChats(arr);
     setInput("");
   };
 
   //This function is activated after pressing the blocked / unblocked button and blocks the user.
   const blockUser = () => {
-    var t = new Date();
-    var time =
-      t.getDate() +
-      "/" +
-      (t.getMonth() + 1) +
-      "/" +
-      t.getFullYear() +
-      "  " +
-      t.getHours() +
-      ":" +
-      t.getMinutes();
-    let arr = [...chats];
+    var time = new Date();
+
     let blockUser = {
       Sender: sender,
       Message: "Now you can not chat with each other due to user blocking",
       Addressee: addressee,
       TimeStamp: time,
     };
-    // arr[select].Chat.push(blockUser);
-    // socket.emit("private", blockUser);
+ 
 
     socket.emit("blockUser", blockUser);
   };
 
   //This function is activated after clicking the Group Exit button and removes the user's subscription from this group
   const exitGroup = (e) => {
-    var t = new Date();
-    var time =
-      t.getDate() +
-      "/" +
-      (t.getMonth() + 1) +
-      "/" +
-      t.getFullYear() +
-      "  " +
-      t.getHours() +
-      ":" +
-      t.getMinutes();
+    var time = new Date();
+
     let newMessage = {
       Sender: sender,
       Message: sender + " has left the group",
@@ -168,7 +141,7 @@ const Chat = () => {
       UserName: sender,
       ID: chats[select]._id,
     };
-   
+
     socket.emit("exitGroup", groupInfo);
   };
 

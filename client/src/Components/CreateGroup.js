@@ -37,17 +37,8 @@ function CreateGroup(props) {
   };
 
   const onSubmit = (e) => {
-    var t = new Date();
-    var time =
-      t.getDate() +
-      "/" +
-      (t.getMonth() + 1) +
-      "/" +
-      t.getFullYear() +
-      "  " +
-      t.getHours() +
-      ":" +
-      t.getMinutes();
+    var time = new Date();
+
     let newGroup = {
       Title: title,
       Admins: [sender],
