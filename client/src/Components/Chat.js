@@ -260,4 +260,7 @@ const Options = style.div`
 const MyElmenet = style.p`
   display:flex;
   margin-left:1rem; 
+  &:hover{
+    background-color: whitesmoke;
+  }
 `;

@@ -14,13 +14,10 @@ import {
   Search,
   SearchContainer,
   ChatsStyle,
-  SearchContainer2,
-  SearchContainer3,
 } from "../style/CreateGroupStyle";
 
 import CreateGroupUsers from "./CreateGroupUsers";
 import styled from "styled-components";
-import { colors } from "@material-ui/core";
 
 function CreateGroup(props) {
   const sender = sessionStorage["userInfo"];
@@ -32,8 +29,11 @@ function CreateGroup(props) {
   const socket = useSocket();
 
   const storeMembers = (e) => {
-    setMembers([...members, e.currentTarget.value]);
-    console.log(members);
+    if (members.find((m) => m == e.currentTarget.value)) {
+      setMembers(members.filter((m) => m != e.currentTarget.value));
+    } else {
+      setMembers([...members, e.currentTarget.value]);
+    }
   };
 
   const onSubmit = (e) => {
@@ -124,12 +124,8 @@ function CreateGroup(props) {
 
       <Search>
         <SearchContainer>
-          {/* <SearchContainer2> */}
-          {/* <SearchContainer3 > */}
           <MySearchOutlined />
           <Input placeholder="type contact name" type="text" />
-          {/* </SearchContainer3> */}
-          {/* </SearchContainer2> */}
         </SearchContainer>
       </Search>
       <ChatsStyle>{createGroupUsers()}</ChatsStyle>

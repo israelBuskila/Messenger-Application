@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+// import { withStyles } from "material-ui/styles/withStyles";
+
 import {
   Button,
   TextField,
@@ -8,8 +10,8 @@ import {
   Avatar,
   Grid,
 } from "@material-ui/core";
+import style from 'styled-components'
 
-import { createMuiTheme } from "@material-ui/core/styles";
 
 import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
@@ -17,7 +19,6 @@ import authService from "../services/authService";
 import { useStyles } from "../style/styleLogin";
 import Box from "@material-ui/core/Box";
 
-//07bc4c
 // import { LockOutlinedIcon } from "@material-ui/icons/LockOutlined";
 
 function Login() {
@@ -85,6 +86,7 @@ function Login() {
           fullWidth
           autoFocus
           autoComplete="username"
+  
         />
         <TextField
           type="password"
@@ -97,7 +99,7 @@ function Login() {
           fullWidth
           autoComplete="current-password"
         />
-        <Button
+        <MyButton
           className={classes.submit}
           type="button"
           value="login"
@@ -107,7 +109,7 @@ function Login() {
           fullWidth
         >
           Login
-        </Button>
+        </MyButton>
         <Grid item>
           <Link to={"/signUp"} variant="body2">
             {"Don't have an account? Sign Up"}
@@ -125,3 +127,28 @@ function Login() {
 }
 
 export default Login;
+
+
+const MyButton = style(Button)`
+ background-color: #00bfa5;
+ &:hover{
+  background-color: #00bfa5;
+  opacity: 0.9;
+}
+`
+// const MyTextField = style(TextField)`
+// color:  #00bfa5;
+// border-color: 'green !important'
+// &:focus  {
+//   background-color: #00bfa5;
+// }
+// `
+// const CssTextField = withStyles({
+//   root: {
+//     '& .MuiOutlinedInput-root': {
+//       '& fieldset': {
+//         borderColor: 'orange',
+//       }
+//   },
+// }})
+

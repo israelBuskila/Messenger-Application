@@ -19,14 +19,27 @@
 
 import style from "styled-components";
 
+
+// export const Box = style.div`
+// display: flex;
+// padding:20px;
+// cursor: pointer;
+// border-bottom: 1px solid #f6f6f6;
+// background-color:${groupSelect => groupSelect};
+// &:hover{
+//     background-color: #ebebeb;
+// }
+// }
+// `;
+
 export const Box = style.div`
 display: flex;
 padding:20px;
 cursor: pointer;
 border-bottom: 1px solid #f6f6f6;
+background-color:${props => props.groupSelect};
 &:hover{
     background-color: #ebebeb;
-}
 }
 `;
 
